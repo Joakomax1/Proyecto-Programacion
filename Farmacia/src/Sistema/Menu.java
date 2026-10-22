@@ -1,6 +1,7 @@
 package Sistema;// [REQUISITO: Package]
 
 import Modelo.Usuario;
+import Gestores.*;
 import Modelo.Producto;
 import Modelo.Medicamento;
 import Modelo.Suplementos;
@@ -30,7 +31,6 @@ public class Menu {
                     break;
                 case 3://TODO:Agregar producto
                     agregarProducto(sc);
-
                     break;
                 case 4://Estadisticas
                     //TODO:Mostrar productos más vendidos
@@ -62,6 +62,16 @@ public class Menu {
         //TODO: Iterar lista para mostrar producto por producto
     }
     
+    public void agregarUsuario(Scanner sc){
+        System.out.println("Ingresa nombre usuario ");
+        String nombre = sc.nextLine();
+
+        System.out.println("Ingresa Rut usuario: ");
+        String rut = sc.nextLine();
+        Usuario u = new Usuario(nombre, rut);
+        //gestorUsuarios.agregar(u);
+        
+    }
     
     //partimos preguntando de que tipo es el medicamento no obstante es un dato que arrastraremos para despues ya que primero pediremos los datos generales para no tener que sobreescribir los datos que cumplen todos los productos tantas veces
     public void agregarProducto(Scanner sc) {
