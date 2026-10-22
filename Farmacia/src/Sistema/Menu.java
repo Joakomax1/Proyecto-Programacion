@@ -6,6 +6,7 @@ import Modelo.Producto;
 import Modelo.Medicamento;
 import Modelo.Suplementos;
 import Modelo.Cosmeticos;
+import static Sistema.Menu.mostrarOpciones;
 import java.util.Scanner;
 
 /**
@@ -18,6 +19,8 @@ public class Menu {
     public void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
         // Gestor gestor = new Gestor();
+        gestorUsuarios gestorU = new gestorUsuarios();
+        gestorU.cargar();
         int opcion;
         do {
             mostrarOpciones();
@@ -27,7 +30,7 @@ public class Menu {
                     // listar();
                     break;
                 case 2://TODO:Agregar usuario
-                    agregarUsuario(sc);
+                    gestorU.agregar(agregarUsuario(sc));
                     break;
                 case 3://TODO:Agregar producto
                     agregarProducto(sc);
@@ -43,9 +46,10 @@ public class Menu {
             }
         } while (opcion != 0);
         sc.close();
+        System.out.println("Farmacia Cerrada");
         // Guardar datos nuevos
-        // gestor.guardar();
-        
+        gestorU.listar();
+        gestorU.guardar(); 
     }
 
     public static void mostrarOpciones() {
@@ -62,14 +66,13 @@ public class Menu {
         //TODO: Iterar lista para mostrar producto por producto
     }
     
-    public void agregarUsuario(Scanner sc){
+    public Usuario agregarUsuario(Scanner sc){
         System.out.println("Ingresa nombre usuario ");
         String nombre = sc.nextLine();
-
         System.out.println("Ingresa Rut usuario: ");
         String rut = sc.nextLine();
         Usuario u = new Usuario(nombre, rut);
-        //gestorUsuarios.agregar(u);
+        return u;
         
     }
     
