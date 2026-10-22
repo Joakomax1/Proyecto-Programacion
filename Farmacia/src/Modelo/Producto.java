@@ -1,10 +1,4 @@
 package Modelo;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author joako
@@ -13,15 +7,15 @@ public abstract class Producto implements Vendible {
     protected int stock;
     protected int precio;
     protected String nombre;
-    protected int staticID;
-    protected boolean estado;
+    //protected int staticID;
+  //  protected boolean estado;
 
-    public Producto(int stock, int precio, String nombre, int staticID, boolean estado) {
+    public Producto(int stock, int precio, String nombre) {
         this.stock = stock;
         this.precio = precio;
         this.nombre = nombre;
-        this.staticID = staticID;
-        this.estado = estado;
+   //     this.staticID = staticID;
+  //      this.estado = estado;
     }
 
     public int getStock() {
@@ -40,13 +34,13 @@ public abstract class Producto implements Vendible {
         this.nombre = nombre;
     }
 
-    public void setStaticID(int staticID) {
-        this.staticID = staticID;
-    }
+    //public void setStaticID(int staticID) {
+    //    this.staticID = staticID;
+    //}
 
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
+    //public void setEstado(boolean estado) {
+    //   this.estado = estado;
+    //}
 
     public int getPrecio() {
         return precio;
@@ -56,11 +50,11 @@ public abstract class Producto implements Vendible {
         return nombre;
     }
 
-    public int getStaticID() {
-        return staticID;
-    }
+ //   public int getStaticID() {
+  //      return staticID;
+ //   }
 
-    public boolean isEstado() {
-        return estado;
-    }
+  //  public boolean isEstado() {
+     //   return estado;
+   // }
 }
