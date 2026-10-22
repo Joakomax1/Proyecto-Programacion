@@ -25,38 +25,38 @@ public class Menu {
             mostrarOpciones();
             opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
-                case 1:
+                case 1://TODO: Mostrar productos
                     // listar();
                     break;
-                case 2:
+                case 2://TODO:Agregar usuario
                     agregarUsuario(sc);
                     break;
-                case 3:
+                case 3://TODO:Agregar producto
                     agregarProducto(sc);
 
                     break;
-                case 0:
-                    System.out.println("Buscar usuario");
-                    String rut = sc.nextLine();
+                case 4://Estadisticas
+                    //TODO:Mostrar productos más vendidos
+                    //TODO:Mostrar productos más comprados por usuario
+                    break;
+                case 0://Cerrar
                     break;
                 default:
                     System.out.println("Opcion invalida");
             }
         } while (opcion != 0);
         sc.close();
-        //TODO: Menu
-        // 
     }
 
     public static void mostrarOpciones() {
         System.out.println("\n=== MENU ===");
-        System.out.println("1. Listar");
-        System.out.println("2. Ranking");
+        System.out.println("1. Mostrar Productos");
+        System.out.println("2. Agregar");
         System.out.println("2. Registrar");
         System.out.println("0. Salir");
         System.out.print("Opcion: ");
     }
-    //falta el gestorProductos
+    //TODO:Mostrar Productos ()
 
     public void agregarUsuario(Scanner sc) {
         System.out.println("Nombre del Cliente:  ");
