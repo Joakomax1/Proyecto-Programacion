@@ -25,6 +25,8 @@ public class Usuario {
     public Usuario(String nombre, String rut) {
         this.usuarios =new HashMap<>();
         usuarios.put(nombre, rut);
+        this.nombre = nombre;
+        this.rut = rut;
     }
     
  
