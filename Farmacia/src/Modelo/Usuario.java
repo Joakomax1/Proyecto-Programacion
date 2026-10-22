@@ -1,4 +1,5 @@
-package Modelo;
+package Modelo;// [REQUISITO: Package]
+
 
 
 import Sistema.Boleta;
@@ -6,14 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
- * @author joako
+ * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 public class Usuario {
 
@@ -26,7 +22,7 @@ public class Usuario {
     private LocalDate fechaCreacion = LocalDate.now();  
     private ArrayList<Boleta> Transacciones;
 
-    public Usuario() {
+    public Usuario(String nombre, String rut) {
         this.usuarios =new HashMap<>();
         usuarios.put(nombre, rut);
     }
