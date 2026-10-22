@@ -1,8 +1,4 @@
-package Sistema;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+package Sistema;// [REQUISITO: Package]
 
 import Modelo.Usuario;
 import Modelo.Producto;
@@ -13,13 +9,14 @@ import java.util.Scanner;
 
 /**
  *
- * @author joako
+ * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 
 public class Menu {
-
+// [REQUISITO: Menu-scanner]
     public void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
+        // Gestor gestor = new Gestor();
         int opcion;
         do {
             mostrarOpciones();
@@ -46,6 +43,9 @@ public class Menu {
             }
         } while (opcion != 0);
         sc.close();
+        // Guardar datos nuevos
+        // gestor.guardar();
+        
     }
 
     public static void mostrarOpciones() {
@@ -57,13 +57,20 @@ public class Menu {
         System.out.print("Opcion: ");
     }
     //TODO:Mostrar Productos ()
-
+    public void mostrarProductos(){
+        //TODO: usar gestor para traer un array de todos los productos
+        //TODO: Iterar lista para mostrar producto por producto
+    }
+    
     public void agregarUsuario(Scanner sc) {
         System.out.println("Nombre del Cliente:  ");
         String nombre = sc.nextLine();
-
         System.out.println("Rut del usuario: ");
-        String rut = sc.nextLine();
+        String rut = sc.nextLine(); 
+        
+        Usuario user = new Usuario();
+        user.setNombre(nombre);
+        user.setRut(rut);
     }
 /*
 partimos preguntando de que tipo es el medicamento no obstante es un dato
@@ -74,43 +81,5 @@ no tener que sobreescribir los datos que cumplen todos los productos tantas vece
     public void agregarProducto(Scanner sc) {
 
     }
+    
 }
-
-//public void agregarProducto(Scanner sc){
-//    System.out.println("Tipo de producto: 1-Medicamento 2-Suplemento 3-Cosmetico");
-//    int opcion = sc.nextLine();
-//
-//    System.out.println("Nombre del producto:  ");
-//    String nombre = sc.nextLine();
-//
-//    System.out.println("precio del producto:  ");
-//    int precio = sc.nextLine();
-//
-//    System.out.println("Stock del producto:  ");
-//    int stock = sc.nextLine();
-//    
-//     switch (opcion){
-//        case 1{
-//            System.out.println("El medicamento requiere receta 1-Si 2-NO  ");
-//            int opcion = sc.nextLine();
-//            if (opcion==1){
-//            receta=true}
-//            else if (opcion==2){
-//            receta==false}
-//        case 2{
-//            System.out.println("El medicamento es de origen animal 1-Si 2-NO  ");
-//            int opcion = sc.nextLine();
-//            if (opcion==1){
-//            receta=true}
-//            else if (opcion==2){
-//            receta==false}
-//        case 3{
-//            System.out.println("El medicamento es organico 1-Si 2-NO  ");
-//            int opcion = sc.nextLine();
-//            if (opcion==1){
-//            receta=true}
-//            if (opcion==2){
-//            receta==false}
-//        }        
-//    }
-//}
