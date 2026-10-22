@@ -62,24 +62,54 @@ public class Menu {
         //TODO: Iterar lista para mostrar producto por producto
     }
     
-    public void agregarUsuario(Scanner sc) {
-        System.out.println("Nombre del Cliente:  ");
+    
+    //partimos preguntando de que tipo es el medicamento no obstante es un dato que arrastraremos para despues ya que primero pediremos los datos generales para no tener que sobreescribir los datos que cumplen todos los productos tantas veces
+    public void agregarProducto(Scanner sc) {
+        System.out.println("Tipo de producto: 1-Medicamento 2-Suplemento 3-Cosmetico");
+        int opcion = Integer.parseInt(sc.nextLine());
+
+        System.out.println("Nombre del producto: ");
         String nombre = sc.nextLine();
-        System.out.println("Rut del usuario: ");
-        String rut = sc.nextLine(); 
+
+        System.out.println("Precio del producto: ");
+        int precio = Integer.parseInt(sc.nextLine());
+
+        System.out.println("Stock del producto: ");
+        int stock = Integer.parseInt(sc.nextLine());
         
-        Usuario user = new Usuario();
-        user.setNombre(nombre);
-        user.setRut(rut);
+        //los datos especificos de cada producto son solamente booleanos
+
+        switch (opcion) {
+            case 1:
+                System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
+                int subOpcion1 = Integer.parseInt(sc.nextLine());
+                boolean receta = (subOpcion1 == 1);
+                // Instanciar o procesar Medicamento con 'receta'
+                break;
+
+            case 2:
+                System.out.println("El suplemento es de origen animal 1-Si 2-NO: ");
+                int subOpcion2 = Integer.parseInt(sc.nextLine());
+                boolean esAnimal = (subOpcion2 == 1);
+                // Instanciar o procesar Suplemento con 'esAnimal'
+                break;
+
+            case 3:
+                System.out.println("El cosmetico es organico 1-Si 2-NO: ");
+                int subOpcion3 = Integer.parseInt(sc.nextLine());
+                boolean esOrganico = (subOpcion3 == 1);
+                // Instanciar o procesar Cosmetico con 'esOrganico'
+                break;
+
+            default:
+                System.out.println("Opción no válida.");
+                break;
+        }
     }
+        }
 /*
 partimos preguntando de que tipo es el medicamento no obstante es un dato
 que arrastraremos para despues ya que primero pediremos los datos generales para
 no tener que sobreescribir los datos que cumplen todos los productos tantas veces    
 */ 
     
-    public void agregarProducto(Scanner sc) {
-
-    }
-    
-}
