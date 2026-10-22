@@ -14,6 +14,7 @@ import java.util.Scanner;
  */
 
 public class Menu {
+    private GestorProductos gestor = new GestorProductos();
 // [REQUISITO: Menu-scanner]
     public void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
@@ -94,7 +95,7 @@ public class Menu {
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
                 int subOpcion1 = Integer.parseInt(sc.nextLine());
                 boolean receta = (subOpcion1 == 1);
-                gestor.agregarProducto(new Medicamento(nombre, precio, , receta)) ;
+                gestor.agregarProducto(new Medicamento(nombre, precio, stock, receta)) ;
                 // Instanciar o procesar Medicamento con 'receta'
                 break;
 
