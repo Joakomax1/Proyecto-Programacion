@@ -94,6 +94,7 @@ public class Menu {
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
                 int subOpcion1 = Integer.parseInt(sc.nextLine());
                 boolean receta = (subOpcion1 == 1);
+                gestor.agregarProducto(new Medicamento(nombre, precio, , receta)) ;
                 // Instanciar o procesar Medicamento con 'receta'
                 break;
 
@@ -101,6 +102,7 @@ public class Menu {
                 System.out.println("El suplemento es de origen animal 1-Si 2-NO: ");
                 int subOpcion2 = Integer.parseInt(sc.nextLine());
                 boolean esAnimal = (subOpcion2 == 1);
+                
                 // Instanciar o procesar Suplemento con 'esAnimal'
                 break;
 
