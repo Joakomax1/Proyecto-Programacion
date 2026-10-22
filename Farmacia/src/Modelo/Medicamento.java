@@ -9,8 +9,8 @@ package Modelo;
 public class Medicamento extends Producto {
     private boolean receta;
     
-    public Medicamento(int stock, int precio, String nombre, int staticID, boolean estado, boolean receta) {
-        super(stock, precio, nombre, staticID, estado);
+    public Medicamento(int stock, int precio, String nombre) {
+        super(stock, precio, nombre);
         this.receta=receta;
     }
 
