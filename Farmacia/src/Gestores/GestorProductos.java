@@ -8,10 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  *
@@ -30,11 +26,8 @@ public class gestorProductos {
     // TODO: Agregar los archivos productos, usuarios, boletas, etc...
     private static final String ARCHIVO = "productos.dat"; // nombre del archivo
 
-
-
     private ArrayList<Producto> lista;
 
-   
 
     public gestorProductos() {
         lista = new ArrayList<>();

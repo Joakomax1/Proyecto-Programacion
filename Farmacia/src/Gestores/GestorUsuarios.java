@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Gestores;
 
 import Modelo.Usuario;
@@ -17,11 +13,11 @@ import java.util.ArrayList;
  *
  * @author 01ian
  */
-public class gestorUsuarios {
+public class GestorUsuarios {
     private static final String ARCHIVO = "usuarios.dat";
     private ArrayList<Usuario> lista;
     
-    public gestorUsuarios() {
+    public GestorUsuarios() {
         lista = new ArrayList<>();
     }
     // ── Guardar: lee la lista desde el disco ──────────────────
@@ -32,7 +28,7 @@ public class gestorUsuarios {
    
     // ── GUARDAR: escribe la lista al disco ───────────────────
     //  [REQUISITO: Persistencia]
-    public void guardar() {
+    public void guardar(Usuario agregarUsuario) {
         try (ObjectOutputStream oos =
             new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
             System.out.println(lista);
