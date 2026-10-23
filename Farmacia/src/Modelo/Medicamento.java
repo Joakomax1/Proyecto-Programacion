@@ -1,15 +1,17 @@
 package Modelo;
+import Enums.Marca;
+import java.io.Serializable;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ *
+ * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 
-
-public class Medicamento extends Producto {
+public class Medicamento extends Producto implements Serializable {
+    private static final long serialVersionUID = 1L;
     private boolean receta;
     
-    public Medicamento(int stock, int precio, String nombre, boolean receta, int marca) {
+    public Medicamento(int stock, int precio, String nombre, boolean receta, Marca marca) {
         super(stock, precio, nombre, marca);
         this.receta=receta;
     }

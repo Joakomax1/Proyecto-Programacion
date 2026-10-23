@@ -1,7 +1,8 @@
 package Sistema;// [REQUISITO: Package]
 
 import Modelo.Usuario;
-import Gestores.*;
+import Gestores.GestorProductos;
+import Gestores.GestorUsuarios;
 import Modelo.Producto;
 import Modelo.Medicamento;
 import Modelo.Suplementos;
@@ -15,13 +16,16 @@ import Enums.Marca;
  */
 
 public class Menu {
-    private GestorProductos gestor = new GestorProductos();
+    private GestorProductos gestorP = new GestorProductos();
+    private GestorUsuarios gestorU = new GestorUsuarios();
 // [REQUISITO: Menu-scanner]
     public void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
-        // Gestor gestor = new Gestor();
-        GestorUsuarios gestorU = new GestorUsuarios();
+        // Cargar archivos memoria
         gestorU.cargar();
+        gestorP.cargar();
+        gestorU.listar();
+        gestorP.listar();
         int opcion;
         do {
             mostrarOpciones();
@@ -48,9 +52,13 @@ public class Menu {
         } while (opcion != 0);
         sc.close();
         System.out.println("Farmacia Cerrada");
-        // Guardar datos nuevos
+        // Guardar usuarios 
         gestorU.guardar(); 
         gestorU.listar();
+        // Guardar Productos
+        gestorP.guardar(); 
+        gestorP.listar();
+        
     }
 
     public static void mostrarOpciones() {
@@ -63,27 +71,22 @@ public class Menu {
     }
     //TODO:Mostrar Productos ()
     public void mostrarProductos(){
-         gestor.listarProductos();
+         gestorP.listar();
         //TODO: usar gestor para traer un array de todos los productos
         //TODO: Iterar lista para mostrar producto por producto
     }
     
     public void mostrarUsuarios(){
-         gestor.listarUsuarios();
+         gestorU.listar();
     }
-    public void agregarUsuario(Scanner sc){
+    public Usuario agregarUsuario(Scanner sc){
         System.out.println("Ingresa nombre usuario ");
         String nombre = sc.nextLine();
-        try{
-            System.out.println("Ingresa Rut usuario: ");
-            String rut = sc.nextLine();
-            Usuario u = new Usuario(nombre, rut);
-        }
-        //gestorUsuarios.agregar(u);
-        catch(NumberFormatExeption e){
-            
-                
-                }
+        System.out.println("Ingresa Rut usuario: ");
+        String rut = sc.nextLine();
+        Usuario u = new Usuario(nombre, rut);
+        return u;
+        
     }
     
     //partimos preguntando de que tipo es el medicamento no obstante es un dato que arrastraremos para despues ya que primero pediremos los datos generales para no tener que sobreescribir los datos que cumplen todos los productos tantas veces
@@ -103,46 +106,51 @@ public class Menu {
 
         System.out.println("Precio del producto: ");
         int precio = Integer.parseInt(sc.nextLine());
+ 
 
         System.out.println("Stock del producto: ");
         int stock = Integer.parseInt(sc.nextLine());
         
-        gestor.mostrarMarcas();
+        // Imprime Todas las Marcas
+        Marca.listarMarcas();
+        
+        // Seleccionar marca
         System.out.println("Que marca es el producto: ");
-        int marca;
-        Marca[] marcas = Marca.values();
+        int marcaSelect;
         do {
-            marca = Integer.parseInt(sc.nextLine());
-            if (marca < 1 || marca > marcas.length) {
+            marcaSelect = Integer.parseInt(sc.nextLine());
+            if (marcaSelect < 1 || marcaSelect > Marca.getCantidad()) {
                 System.out.println("  Opcion invalida, intente denuevo:    ");
             }
-        } while (marca < 1 || marca > marcas.length);
-
-    
-
+        } while (marcaSelect < 1 || marcaSelect > Marca.getCantidad());
+        
+        // convierte seleccion en un enum
+        Marca marca = Marca.getPorPos(marcaSelect);
+        
         switch (opcion) {
-            case 1:
+            case 1:// Medicamento
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
                 int subOpcion1 = Integer.parseInt(sc.nextLine());
                 boolean receta = (subOpcion1 == 1);
-                gestor.agregarProducto(new Medicamento(stock, precio, nombre, receta, marca));
+                
+                gestorP.agregar(new Medicamento(stock, precio, nombre, receta, marca));
                 // Instanciar o procesar Medicamento con 'receta'
                 break;
 
-            case 2:
+            case 2:// Suplemento
                 System.out.println("El suplemento es de origen animal 1-Si 2-NO: ");
                 int subOpcion2 = Integer.parseInt(sc.nextLine());
                 boolean origenAnimal = (subOpcion2 == 1);
-                gestor.agregarProducto(new Suplementos(stock, precio, nombre, origenAnimal, marca));
+                gestorP.agregar(new Suplementos(stock, precio, nombre, origenAnimal, marca));
                 
                 // Instanciar o procesar Suplemento con 'esAnimal'
                 break;
 
-            case 3:
+            case 3:// Cosmetico
                 System.out.println("El cosmetico es organico 1-Si 2-NO: ");
                 int subOpcion3 = Integer.parseInt(sc.nextLine());
                 boolean organico = (subOpcion3 == 1);
-                gestor.agregarProducto(new Cosmeticos(stock, precio, nombre, organico, marca));
+                gestorP.agregar(new Cosmeticos(stock, precio, nombre, organico, marca));
                 // Instanciar o procesar Cosmetico con 'esOrganico'
                 break;
 

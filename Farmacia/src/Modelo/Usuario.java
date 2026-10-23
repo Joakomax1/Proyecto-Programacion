@@ -3,6 +3,7 @@ package Modelo;// [REQUISITO: Package]
 
 
 import Sistema.Boleta;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +12,8 @@ import java.util.HashMap;
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
-public class Usuario {
-
-    public static void setNombre() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+public class Usuario implements Serializable{
+    private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia] OPCIONAL
     private HashMap<String,String> usuarios;
     private String rut;
     private String nombre;
@@ -24,9 +22,10 @@ public class Usuario {
 
     public Usuario(String nombre, String rut) {
         this.usuarios =new HashMap<>();
-        usuarios.put(nombre, rut);
         this.nombre = nombre;
         this.rut = rut;
+        usuarios.put(rut, nombre);
+        
     }
     
  

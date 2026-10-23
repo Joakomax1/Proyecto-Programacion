@@ -1,5 +1,7 @@
 package Modelo;// [REQUISITO: Package]
 
+import Enums.Marca;
+
 /**
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
@@ -8,7 +10,7 @@ public class Cosmeticos extends Producto {
     
     private boolean organico;
     
-    public Cosmeticos(int stock, int precio, String nombre, boolean organico, int marca){
+    public Cosmeticos(int stock, int precio, String nombre, boolean organico, Marca marca){
         super(stock, precio, nombre, marca);
         this.organico=organico;
     }

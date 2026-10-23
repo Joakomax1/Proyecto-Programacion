@@ -11,12 +11,13 @@ import java.util.ArrayList;
 
 /**
  *
- * @author 01ian ASD
+ * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 public class GestorUsuarios {
     private static final String ARCHIVO = "usuarios.dat";
     private ArrayList<Usuario> lista;
     
+    // inicializar array
     public GestorUsuarios() {
         lista = new ArrayList<>();
     }
@@ -28,7 +29,7 @@ public class GestorUsuarios {
    
     // ── GUARDAR: escribe la lista al disco ───────────────────
     //  [REQUISITO: Persistencia]
-    public void guardar(Usuario agregarUsuario) {
+    public void guardar() {
         try (ObjectOutputStream oos =
             new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
             System.out.println(lista);
@@ -49,7 +50,7 @@ public class GestorUsuarios {
         }
         System.out.println("\n=== Usuarios (" + lista.size() + ") ===");
         for (int i = 0; i < lista.size(); i++) {
-            System.out.println("  " + (i + 1) + ". " + lista.get(i));
+            System.out.println("  " + (i + 1) + ". " + lista.get(i).getNombre());
         }
     }
     // ── CARGAR: lee la lista desde el disco ──────────────────

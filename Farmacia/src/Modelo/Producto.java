@@ -1,21 +1,28 @@
 package Modelo;
 import Enums.Estado;
+import Enums.Marca;
+import java.io.Serializable;
 
 /**
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
-public abstract class Producto implements Vendible {// [REQUISITO: Herencia]
+public abstract class Producto implements Vendible, Serializable {
+    private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia
     protected int stock;
     protected int precio;
     protected String nombre;
+    private final Marca marca;
+
+    
     //protected int staticID;
   //  protected boolean estado;
 
-    public Producto(int stock, int precio, String nombre) {
+    public Producto(int stock, int precio, String nombre, Marca marca) {
         this.stock = stock;
         this.precio = precio;
         this.nombre = nombre;
+        this.marca = marca;
    //     this.staticID = staticID;
   //      this.estado = estado;
     }
@@ -66,4 +73,4 @@ public abstract class Producto implements Vendible {// [REQUISITO: Herencia]
   //  public boolean isEstado() {
      //   return estado;
    // }
-}
+}    

@@ -1,14 +1,15 @@
 package Modelo;// [REQUISITO: Package]
 
+import Enums.Marca;
+
 /**
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
-
 public class Suplementos extends Producto{
     private boolean origenAnimal;
 
-    public Suplementos(int stock, int precio, String nombre, boolean origenAnimal,int marca) {
+    public Suplementos(int stock, int precio, String nombre, boolean origenAnimal, Marca marca) {
         super(stock, precio, nombre, marca);
         this.origenAnimal = origenAnimal;
     }

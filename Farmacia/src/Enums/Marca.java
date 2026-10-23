@@ -7,7 +7,7 @@ package Enums;
 
 /**
  *
- * @author joako
+ * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 public enum Marca {
  
@@ -23,11 +23,20 @@ public enum Marca {
     Pediasure,
     Ensure,
     Wild_Protein,
-    ProteinMix,
+    ProteinMix;
     
+    public static Marca getPorPos(int indice){
+        return values()[indice];
+    }
     
+    public static void listarMarcas(){
+        for(Marca m: Marca.values()){
+            System.out.println(m.name());
+        }
+    }
     
-    
-    
-    
+    public static int getCantidad(){
+        int val = Marca.values().length;
+        return val;
+    }
 }

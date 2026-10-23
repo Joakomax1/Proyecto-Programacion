@@ -6,7 +6,7 @@ package Excepciones;
 
 /**
  *
- * @author LAB202
+ * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 // Paso 1: Crear la clase de excepción 
 
