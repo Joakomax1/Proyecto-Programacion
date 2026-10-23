@@ -1,4 +1,6 @@
 package Modelo;
+import Enums.Estado;
+
 /**
  *
  * @author joako
@@ -48,6 +50,13 @@ public abstract class Producto implements Vendible {
 
     public String getNombre() {
         return nombre;
+    }
+    
+    public Estado getEstadoStock(){
+        if (stock>0){
+            return Estado.con_Stock;
+        }
+        return Estado.sin_Stock;
     }
 
  //   public int getStaticID() {
