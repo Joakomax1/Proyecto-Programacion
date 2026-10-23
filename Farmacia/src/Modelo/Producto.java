@@ -1,4 +1,5 @@
-package Modelo;// [REQUISITO: Package]
+package Modelo;
+import Enums.Estado;
 
 /**
  *
@@ -8,15 +9,15 @@ public abstract class Producto implements Vendible {// [REQUISITO: Herencia]
     protected int stock;
     protected int precio;
     protected String nombre;
-    protected int staticID;
-    protected boolean estado;
+    //protected int staticID;
+  //  protected boolean estado;
 
-    public Producto(int stock, int precio, String nombre, int staticID, boolean estado) {
+    public Producto(int stock, int precio, String nombre) {
         this.stock = stock;
         this.precio = precio;
         this.nombre = nombre;
-        this.staticID = staticID;
-        this.estado = estado;
+   //     this.staticID = staticID;
+  //      this.estado = estado;
     }
 
     public int getStock() {
@@ -35,13 +36,13 @@ public abstract class Producto implements Vendible {// [REQUISITO: Herencia]
         this.nombre = nombre;
     }
 
-    public void setStaticID(int staticID) {
-        this.staticID = staticID;
-    }
+    //public void setStaticID(int staticID) {
+    //    this.staticID = staticID;
+    //}
 
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
+    //public void setEstado(boolean estado) {
+    //   this.estado = estado;
+    //}
 
     public int getPrecio() {
         return precio;
@@ -50,12 +51,19 @@ public abstract class Producto implements Vendible {// [REQUISITO: Herencia]
     public String getNombre() {
         return nombre;
     }
-
-    public int getStaticID() {
-        return staticID;
+    
+    public Estado getEstadoStock(){
+        if (stock>0){
+            return Estado.con_Stock;
+        }
+        return Estado.sin_Stock;
     }
 
-    public boolean isEstado() {
-        return estado;
-    }
+ //   public int getStaticID() {
+  //      return staticID;
+ //   }
+
+  //  public boolean isEstado() {
+     //   return estado;
+   // }
 }
