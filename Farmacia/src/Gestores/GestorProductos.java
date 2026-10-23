@@ -65,7 +65,7 @@ public class GestorProductos {
     // Metodos listar contenido Sobrecarga
     // Metodos guardar contenido Sobrecarga
 
-    public void listar(Usuario p) {
+    public void listar() {
         if (almacenP.isEmpty()) {
             System.out.println("No hay Stock.");
             return;
