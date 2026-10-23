@@ -8,7 +8,7 @@ import Modelo.Suplementos;
 import Modelo.Cosmeticos;
 import static Sistema.Menu.mostrarOpciones;
 import java.util.Scanner;
-
+import Enums.Marca;
 /**
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
@@ -28,7 +28,7 @@ public class Menu {
             opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
                 case 1://TODO: Mostrar productos
-                    // listar();
+                    mostrarProductos();
                     break;
                 case 2://TODO:Agregar usuario
                     gestorU.agregar(agregarUsuario(sc));
@@ -56,31 +56,47 @@ public class Menu {
     public static void mostrarOpciones() {
         System.out.println("\n=== MENU ===");
         System.out.println("1. Mostrar Productos");
-        System.out.println("2. Agregar");
-        System.out.println("3. Registrar");
+        System.out.println("2. Agregar usuario");
+        System.out.println("3. Agregar producto");
         System.out.println("0. Salir");
         System.out.print("Opcion: ");
     }
     //TODO:Mostrar Productos ()
     public void mostrarProductos(){
+         gestor.listarProductos();
         //TODO: usar gestor para traer un array de todos los productos
         //TODO: Iterar lista para mostrar producto por producto
     }
     
-    public Usuario agregarUsuario(Scanner sc){
+    public void mostrarUsuarios(){
+         gestor.listarUsuarios();
+    }
+    public void agregarUsuario(Scanner sc){
         System.out.println("Ingresa nombre usuario ");
         String nombre = sc.nextLine();
-        System.out.println("Ingresa Rut usuario: ");
-        String rut = sc.nextLine();
-        Usuario u = new Usuario(nombre, rut);
-        return u;
-        
+        try{
+            System.out.println("Ingresa Rut usuario: ");
+            String rut = sc.nextLine();
+            Usuario u = new Usuario(nombre, rut);
+        }
+        //gestorUsuarios.agregar(u);
+        catch(NumberFormatExeption e){
+            
+                
+                }
     }
     
     //partimos preguntando de que tipo es el medicamento no obstante es un dato que arrastraremos para despues ya que primero pediremos los datos generales para no tener que sobreescribir los datos que cumplen todos los productos tantas veces
     public void agregarProducto(Scanner sc) {
         System.out.println("Tipo de producto: 1-Medicamento 2-Suplemento 3-Cosmetico");
-        int opcion = Integer.parseInt(sc.nextLine());
+        int opcion;
+        do {
+            opcion = Integer.parseInt(sc.nextLine());
+            if (opcion < 1 || opcion > 3) {
+                System.out.println("  Opcion invalida, intente denuevo:    ");
+            }
+        } while (opcion < 1 || opcion > 3);
+        
 
         System.out.println("Nombre del producto: ");
         String nombre = sc.nextLine();
@@ -91,14 +107,25 @@ public class Menu {
         System.out.println("Stock del producto: ");
         int stock = Integer.parseInt(sc.nextLine());
         
-        //los datos especificos de cada producto son solamente booleanos
+        gestor.mostrarMarcas();
+        System.out.println("Que marca es el producto: ");
+        int marca;
+        Marca[] marcas = Marca.values();
+        do {
+            marca = Integer.parseInt(sc.nextLine());
+            if (marca < 1 || marca > marcas.length) {
+                System.out.println("  Opcion invalida, intente denuevo:    ");
+            }
+        } while (marca < 1 || marca > marcas.length);
+
+    
 
         switch (opcion) {
             case 1:
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
                 int subOpcion1 = Integer.parseInt(sc.nextLine());
                 boolean receta = (subOpcion1 == 1);
-                gestor.agregarProducto(new Medicamento(stock, precio, nombre, receta));
+                gestor.agregarProducto(new Medicamento(stock, precio, nombre, receta, marca));
                 // Instanciar o procesar Medicamento con 'receta'
                 break;
 
@@ -106,7 +133,7 @@ public class Menu {
                 System.out.println("El suplemento es de origen animal 1-Si 2-NO: ");
                 int subOpcion2 = Integer.parseInt(sc.nextLine());
                 boolean origenAnimal = (subOpcion2 == 1);
-                gestor.agregarProducto(new Suplementos(stock, precio, nombre, origenAnimal));
+                gestor.agregarProducto(new Suplementos(stock, precio, nombre, origenAnimal, marca));
                 
                 // Instanciar o procesar Suplemento con 'esAnimal'
                 break;
@@ -115,7 +142,7 @@ public class Menu {
                 System.out.println("El cosmetico es organico 1-Si 2-NO: ");
                 int subOpcion3 = Integer.parseInt(sc.nextLine());
                 boolean organico = (subOpcion3 == 1);
-                gestor.agregarProducto(new Cosmeticos(stock, precio, nombre, organico));
+                gestor.agregarProducto(new Cosmeticos(stock, precio, nombre, organico, marca));
                 // Instanciar o procesar Cosmetico con 'esOrganico'
                 break;
 
