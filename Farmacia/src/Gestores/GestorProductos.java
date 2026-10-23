@@ -1,5 +1,6 @@
 
 package Gestores;
+import Enums.Marca;
 import Modelo.Producto;
 import Modelo.Usuario;
 import Sistema.Boleta;
@@ -8,6 +9,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 
 /**
  *
@@ -39,18 +45,41 @@ public class GestorProductos {
     }
     // Metodos listar contenido Sobrecarga
     // Metodos guardar contenido Sobrecarga
-
-    public void listar(Usuario p) {
-        if (lista.isEmpty()) {
+    
+    public void listarUsuarios() {
+        if (almacenU.isEmpty()) {
+            System.out.println("No hay Personas.");
+            return;
+        }
+        System.out.println("\n=== Productos (" + almacenU.size() + ") ===");
+        for (int i = 0; i < almacenU.size(); i++) {
+            Usuario p = almacenU.get(i);
+            System.out.println("  " + (i + 1) + ". " + "nombre: " + p.getNombre()+ " Rut:  " + p.getRut() );
+        }
+    }
+    public void listarProductos(){
+        if (almacenP.isEmpty()) {
             System.out.println("No hay Stock.");
             return;
         }
-        System.out.println("\n=== Productos (" + lista.size() + ") ===");
-        for (int i = 0; i < lista.size(); i++) {
-            System.out.println("  " + (i + 1) + ". " + lista.get(i));
+        System.out.println("\n=== Productos (" + almacenP.size() + ") ===");
+        for (int i = 0; i < almacenP.size(); i++) {
+            Producto p = almacenP.get(i);
+            System.out.println("  " + (i + 1) + ". " + "nombre: " + p.getNombre()+ " Stock:  " + p.getStock() + "  Precio:  " + p.getPrecio() );
         }
     }
-    // ── CARGAR: lee la lista desde el disco ──────────────────
+    public void mostrarMarcas() {
+        System.out.println("Selecciona la marca del producto :");
+        Marca[] marcas = Marca.values();
+
+        for (int i = 0; i < marcas.length; i=i+1) {
+            System.out.println((i + 1) + ". " + marcas[i]);
+        }
+    }
+}
+        
+
+    /*    // ── CARGAR: lee la lista desde el disco ──────────────────
     //  [REQUISITO: Persistencia]
     @SuppressWarnings("unchecked")
     public void cargar() {
@@ -81,5 +110,4 @@ public class GestorProductos {
     public int getTamanio() { 
         return lista.size(); 
     }
-
-}
+*/
