@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author 01ian
+ * @author 01ian ASD
  */
 public class GestorUsuarios {
     private static final String ARCHIVO = "usuarios.dat";
