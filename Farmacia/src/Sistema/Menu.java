@@ -48,15 +48,15 @@ public class Menu {
         sc.close();
         System.out.println("Farmacia Cerrada");
         // Guardar datos nuevos
-        gestorU.listar();
         gestorU.guardar(); 
+        gestorU.listar();
     }
 
     public static void mostrarOpciones() {
         System.out.println("\n=== MENU ===");
         System.out.println("1. Mostrar Productos");
         System.out.println("2. Agregar");
-        System.out.println("2. Registrar");
+        System.out.println("3. Registrar");
         System.out.println("0. Salir");
         System.out.print("Opcion: ");
     }
