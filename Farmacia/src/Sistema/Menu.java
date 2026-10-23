@@ -20,7 +20,7 @@ public class Menu {
     public void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
         // Gestor gestor = new Gestor();
-        gestorUsuarios gestorU = new gestorUsuarios();
+        GestorUsuarios gestorU = new GestorUsuarios();
         gestorU.cargar();
         int opcion;
         do {
