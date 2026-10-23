@@ -10,8 +10,8 @@ public class Cosmeticos extends Producto {
     
     private boolean organico;
     
-    public Cosmeticos(int stock, int precio, String nombre, int staticID, boolean estado, boolean organico) {
-        super(stock, precio, nombre, staticID, estado);
+    public Cosmeticos(int stock, int precio, String nombre, boolean organico){
+        super(stock, precio, nombre);
         this.organico=organico;
     }
 
