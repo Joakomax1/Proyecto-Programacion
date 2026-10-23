@@ -12,17 +12,8 @@
             <file>file:/C:/Users/joako/OneDrive/Documentos/NetBeansProjects/Farmacia/src/Suplementos.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Sistema/Main.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Sistema/Farmacia.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Sistema/Boleta.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Cosmeticos.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Vendible.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Sistema/Menu.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Suplementos.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Producto.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Medicamento.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Usuario.java</file>
-            <file>file:/C:/Users/joako/Downloads/Farmacia/Farmacia/src/Modelo/Marca.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Sistema/Main.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Excepciones/StockInsuficienteException.java</file>
         </group>
     </open-files>
 </project-private>
