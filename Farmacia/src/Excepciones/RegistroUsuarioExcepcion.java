@@ -10,12 +10,12 @@ package Excepciones;
  */
 // Paso 1: Crear la clase de excepción 
 
-public class RegistroUsuarioException extends RuntimeException {
-    public RegistroUsuarioException(String nombre) {
+public class RegistroUsuarioExcepcion extends RuntimeException {
+    public RegistroUsuarioExcepcion(String nombre) {
         super("Error registro usuario: " + nombre
         );
     }
-    public RegistroUsuarioException(String nombre, String rut) {
+    public RegistroUsuarioExcepcion(String nombre, String rut) {
         super("Error registro usuario: " + nombre + " "
                 + " Rut: " + rut
         );
