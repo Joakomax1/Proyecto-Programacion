@@ -45,14 +45,18 @@ public class GestorProductos {
     }
     
 
+    public void agregarProducto(Producto p) {
+        almacenP.add(p);
+        System.out.println("Producto exitosamente agregado: " );
+       }
 
     public void guardar(Usuario u) {
         almacenU.add(u);
-        System.out.println("Producto agragado exitosamente......: " + p.getNombre());
     }
+    
     public void guardar(Boleta b) {
         almacenB.add(b);
-        System.out.println("Producto agragado exitosamente......: " + p);
+        System.out.println("Producto agragado exitosamente......: " + b);
     }
     public void guardar(Producto p) {
         almacenP.add(p);
