@@ -6,11 +6,11 @@ package Modelo;// [REQUISITO: Package]
  */
 
 public class Suplementos extends Producto{
-    private boolean origenAnimal_Vegetal;
+    private boolean origenAnimal;
 
-    public Suplementos(boolean origenAnimal_Vegetal, int stock, int precio, String nombre, int staticID, boolean estado) {
-        super(stock, precio, nombre, staticID, estado);
-        this.origenAnimal_Vegetal = origenAnimal_Vegetal;
+    public Suplementos(int stock, int precio, String nombre, boolean origenAnimal) {
+        super(stock, precio, nombre);
+        this.origenAnimal = origenAnimal;
     }
 
     @Override
