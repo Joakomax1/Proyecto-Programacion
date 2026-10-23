@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 
-public class gestorProductos {
+public class GestorProductos {
     /*TODO:
     * Métodos:
     * Cargar(abrir archiv, leer contenido, convertir en aray, inicializar en cosntructor)(por cada Clase)
@@ -28,8 +28,7 @@ public class gestorProductos {
 
     private ArrayList<Producto> lista;
 
-
-    public gestorProductos() {
+    public GestorProductos() {
         lista = new ArrayList<>();
 
     }
