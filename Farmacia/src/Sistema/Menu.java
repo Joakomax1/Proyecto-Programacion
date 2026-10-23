@@ -24,25 +24,27 @@ public class Menu {
         // Cargar archivos memoria
         gestorU.cargar();
         gestorP.cargar();
-        gestorU.listar();
-        gestorP.listar();
+//        gestorU.listar();
+//        gestorP.listar();
         int opcion;
         do {
             mostrarOpciones();
             opcion = Integer.parseInt(sc.nextLine());
             switch (opcion) {
-                case 1://TODO: Mostrar productos
+                case 1:
                     mostrarProductos();
+                    //TODO:comprar productos
                     break;
-                case 2://TODO:Agregar usuario
+                case 2:
                     gestorU.agregar(agregarUsuario(sc));
                     break;
-                case 3://TODO:Agregar producto
+                case 3:
                     agregarProducto(sc);
                     break;
                 case 4://Estadisticas
                     //TODO:Mostrar productos más vendidos
                     //TODO:Mostrar productos más comprados por usuario
+                    //TODO:Mostrar ventas Históricas
                     break;
                 case 0://Cerrar
                     break;
@@ -69,11 +71,9 @@ public class Menu {
         System.out.println("0. Salir");
         System.out.print("Opcion: ");
     }
-    //TODO:Mostrar Productos ()
+    
     public void mostrarProductos(){
          gestorP.listar();
-        //TODO: usar gestor para traer un array de todos los productos
-        //TODO: Iterar lista para mostrar producto por producto
     }
     
     public void mostrarUsuarios(){
@@ -85,8 +85,7 @@ public class Menu {
         System.out.println("Ingresa Rut usuario: ");
         String rut = sc.nextLine();
         Usuario u = new Usuario(nombre, rut);
-        return u;
-        
+        return u;     
     }
     
     //partimos preguntando de que tipo es el medicamento no obstante es un dato que arrastraremos para despues ya que primero pediremos los datos generales para no tener que sobreescribir los datos que cumplen todos los productos tantas veces
@@ -159,10 +158,6 @@ public class Menu {
                 break;
         }
     }
-        }
-/*
-partimos preguntando de que tipo es el medicamento no obstante es un dato
-que arrastraremos para despues ya que primero pediremos los datos generales para
-no tener que sobreescribir los datos que cumplen todos los productos tantas veces    
-*/ 
+}
+
     
