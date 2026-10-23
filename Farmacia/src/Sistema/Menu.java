@@ -95,14 +95,15 @@ public class Menu {
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
                 int subOpcion1 = Integer.parseInt(sc.nextLine());
                 boolean receta = (subOpcion1 == 1);
-                gestor.agregarProducto(new Medicamento(nombre, precio, stock, receta)) ;
+                gestor.agregarProducto(new Medicamento(stock, precio, nombre, receta));
                 // Instanciar o procesar Medicamento con 'receta'
                 break;
 
             case 2:
                 System.out.println("El suplemento es de origen animal 1-Si 2-NO: ");
                 int subOpcion2 = Integer.parseInt(sc.nextLine());
-                boolean esAnimal = (subOpcion2 == 1);
+                boolean origenAnimal = (subOpcion2 == 1);
+                gestor.agregarProducto(new Suplementos(stock, precio, nombre, origenAnimal));
                 
                 // Instanciar o procesar Suplemento con 'esAnimal'
                 break;
@@ -110,7 +111,8 @@ public class Menu {
             case 3:
                 System.out.println("El cosmetico es organico 1-Si 2-NO: ");
                 int subOpcion3 = Integer.parseInt(sc.nextLine());
-                boolean esOrganico = (subOpcion3 == 1);
+                boolean organico = (subOpcion3 == 1);
+                gestor.agregarProducto(new Cosmeticos(stock, precio, nombre, organico));
                 // Instanciar o procesar Cosmetico con 'esOrganico'
                 break;
 
