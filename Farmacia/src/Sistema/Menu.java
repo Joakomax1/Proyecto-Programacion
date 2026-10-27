@@ -1,5 +1,6 @@
 package Sistema;// [REQUISITO: Package]
 
+import Enums.Estado;
 import Modelo.Usuario;
 import Gestores.GestorProductos;
 import Gestores.GestorUsuarios;
@@ -43,7 +44,7 @@ public class Menu {
                             System.out.println("\nSelecciona el producto a comprar: 0 para volver atras: ");
                             opcion = getInt(sc);
                             if (opcion == 0) {
-                                opcion = 7;
+                                opcion = 99;// de lo contrario hace cascada a comprar
                                 break;
                             }
                             comprarProductos(sc, opcion); // Pasa el producto ya seleccionado
@@ -73,10 +74,10 @@ public class Menu {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Error: Debe ingresar un numero valido.");
-                opcion = -1;
+                opcion = 99;
             } catch (RegistroUsuarioExcepcion | StockInsuficienteException e) { // [REQUISITO: Excepciones]
                 System.out.println("Error del Sistema: " + e.getMessage());
-                opcion = -1;
+                opcion = 99;
             }
         } while (opcion != 0);
         sc.close();
@@ -126,9 +127,9 @@ public class Menu {
         ArrayList<Integer> valores = new ArrayList<>();
         ArrayList<Producto> listaCompra = new ArrayList<>();
         int cantidadProductos = gestorP.getLista().size();
-
         //Comprar productos looop
         do {
+            
             // Seleccionar producto
             while (opcion < 1 || opcion > cantidadProductos) {
                 System.out.println("\nProducto no existe, intente de nuevo: ");
@@ -139,19 +140,20 @@ public class Menu {
             // Validar si el producto ya se encuentra en el carrito de compras
             if (isProductoEnListaCompra(listaCompra, producto)) {
                 System.out.println("\nEl producto ya existe en la lista de compra, selecciona otro producto.");
+            } else if (producto.getEstadoStock() != Estado.con_Stock) {
+                // Verificar estado de stock
+                System.out.println("\nEl producto se encuentra sin stock.");
             } else {
-                // Agregar nuevo producto a la lista de compra
-                listaCompra.add(producto);
                 int stockProducto = producto.getStock();
-
                 // Pedir cantidad
                 System.out.println("\nCuantas unidades? Disponibles: " + stockProducto);
                 int cant = getInt(sc);
-
-                while (cant < 1 || cant > stockProducto) {
-                    System.out.println("\nSelecciona suficientes unidades Disponibles: " + stockProducto);
-                    cant = getInt(sc);
+                // Validar unidades solicitadas lanzando excepcion personalizada
+                if (cant < 1 || cant > stockProducto) {
+                    throw new StockInsuficienteException(stockProducto, cant);
                 }
+                // Agregar nuevo producto a la lista de compra
+                listaCompra.add(producto);
                 cantidad.add(cant);
                 valores.add(producto.getPrecio());
             }
@@ -168,6 +170,8 @@ public class Menu {
             System.out.println("\nNo se seleccionaron productos.");
             return;
         }
+        // verificar venta
+        
         // TODO: Preguntar Si desea agregar nuevo usuario o no
         // Si se agrega verificar que el usuario existe
         Usuario usuario = agregarUsuario(sc);
