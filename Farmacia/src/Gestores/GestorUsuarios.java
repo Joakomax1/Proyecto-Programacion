@@ -21,6 +21,11 @@ public class GestorUsuarios {
     public GestorUsuarios() {
         lista = new ArrayList<>();
     }
+    
+    public ArrayList getLista(){
+        return lista;
+    }
+    
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Usuario u) {
         lista.add(u);

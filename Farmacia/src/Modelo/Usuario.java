@@ -14,17 +14,17 @@ import java.util.HashMap;
  */
 public class Usuario implements Serializable{
     private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia] OPCIONAL
-    private HashMap<String,String> usuarios;
     private String rut;
     private String nombre;
     private LocalDate fechaCreacion = LocalDate.now();  
-    private ArrayList<Boleta> Transacciones;
+    private ArrayList<Boleta> transacciones;
+    private int totalTransacciones;
 
     public Usuario(String nombre, String rut) {
-        this.usuarios =new HashMap<>();
         this.nombre = nombre;
         this.rut = rut;
-        usuarios.put(rut, nombre);
+        this.transacciones = new ArrayList<>();
+        this.totalTransacciones = 0;
         
     }
     
@@ -37,10 +37,12 @@ public class Usuario implements Serializable{
         this.nombre = nombre;
     }
     
-    public void setTransacciones(ArrayList<Boleta> Transacciones) {
-        this.Transacciones = Transacciones;
+    public void setTransacciones(Boleta transacciones) {
+        this.transacciones.add(transacciones);
     }
-
+    public void setTotalTransacciones(int valor){
+        this.totalTransacciones += valor;
+    }
     public String getRut() {
         return rut;
     }
@@ -50,25 +52,11 @@ public class Usuario implements Serializable{
     }
 
     public ArrayList<Boleta> getTransacciones() {
-        return Transacciones;
-    }
-
-    public Usuario(String rut, String nombre, ArrayList<Boleta> Transacciones) {
-        this.rut = rut;
-        this.nombre = nombre;
-        this.Transacciones = Transacciones;
-    }
-
-    public void setUsuarios(HashMap<String, String> usuarios) {
-        this.usuarios = usuarios;
+        return transacciones;
     }
 
     public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    public HashMap<String, String> getUsuarios() {
-        return usuarios;
     }
 
     public LocalDate getFechaCreacion() {

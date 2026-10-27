@@ -2,13 +2,17 @@ package Modelo;
 import Enums.Estado;
 import Enums.Marca;
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 public abstract class Producto implements Vendible, Serializable {
-    private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia
+    private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia    
+    // Genera contador para cada id de producto
+    private static final AtomicInteger counter = new AtomicInteger(1);
+    private final int id;
     protected int stock;
     protected int precio;
     protected String nombre;
@@ -19,16 +23,20 @@ public abstract class Producto implements Vendible, Serializable {
   //  protected boolean estado;
 
     public Producto(int stock, int precio, String nombre, Marca marca) {
+        this.id = counter.getAndIncrement();
         this.stock = stock;
         this.precio = precio;
         this.nombre = nombre;
         this.marca = marca;
-   //     this.staticID = staticID;
   //      this.estado = estado;
     }
 
     public int getStock() {
         return stock;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public void setStock(int stock) {
@@ -42,21 +50,13 @@ public abstract class Producto implements Vendible, Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    //public void setStaticID(int staticID) {
-    //    this.staticID = staticID;
-    //}
-
-    //public void setEstado(boolean estado) {
-    //   this.estado = estado;
-    //}
-
+    
+    // Getter ID unico
+    public int getId() {
+        return id;
+    }
     public int getPrecio() {
         return precio;
-    }
-
-    public String getNombre() {
-        return nombre;
     }
     
     public Estado getEstadoStock(){

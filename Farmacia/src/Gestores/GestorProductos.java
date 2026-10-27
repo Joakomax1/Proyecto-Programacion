@@ -39,6 +39,9 @@ public class GestorProductos {
         lista = new ArrayList<>();
 
     }
+    public ArrayList getLista(){
+        return lista;
+    }
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Producto p) {
         lista.add(p);
@@ -60,16 +63,17 @@ public class GestorProductos {
         }
     }
     // ── listar: Mostrar todo ──────────────────
-    public void listar(){
+    public boolean listar(){
         if (lista.isEmpty()) {
-            System.out.println("No hay Stock.");
-            return;
+            System.out.println("\nNo hay Stock!!!.");
+            return false;
         }
         System.out.println("\n=== Productos (" + lista.size() + ") ===");
         for (int i = 0; i < lista.size(); i++) {
             Producto p = lista.get(i);
             System.out.println("  " + (i + 1) + ". " + "nombre: " + p.getNombre()+ " Stock:  " + p.getStock() + "  Precio:  " + p.getPrecio() );
         }
+        return true;
     }
     
     // ── CARGAR: lee la lista desde el disco ──────────────────
