@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -41,6 +42,9 @@ public class GestorProductos {
     }
     public ArrayList getLista(){
         return lista;
+    }
+    public void restarStockComprado(AtomicInteger id, int stockComprado){
+        
     }
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Producto p) {

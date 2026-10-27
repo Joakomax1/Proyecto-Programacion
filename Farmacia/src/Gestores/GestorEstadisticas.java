@@ -1,8 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Gestores;
+
+import Modelo.Producto;
+import Modelo.Usuario;
+import Sistema.Boleta;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -11,17 +14,76 @@ package Gestores;
 public class GestorEstadisticas {
     
     // Usar GestorUsuarios.getLista() usar el contador valorTotal(total gastado)
-    private void getTopComprador(){
+    public void getTopComprador(ArrayList<Usuario> usuarios){
+        Usuario topComprador = usuarios.getFirst();
+        int valor = 0;
+        for(Usuario u: usuarios){
+            if (u.getTotalTransacciones() > topComprador.getTotalTransacciones()){
+                topComprador = u;
+            }
+            
+        }
+        valor = topComprador.getTotalTransacciones();
+        System.out.println("Top comprador: " + topComprador.getNombre() +
+                "$" + valor);
         
     }
     
-    // Usar GestorBoletas.getLista()contar producto más vendido
-    private void getTopProducto(){
-        
+    // Encuentra el producto con más unidades vendidas en total
+    public void getTopProducto(ArrayList<Boleta> boletas) {
+        if (boletas == null || boletas.isEmpty()) {
+            System.out.println("No hay boletas registradas.");
+            return;
+        }
+
+        HashMap<String, Integer> conteo = obtenerConteoVentas(boletas);
+
+        String topProducto = null;
+        int maxCantidad = 0;
+
+        for (Map.Entry<String, Integer> entry : conteo.entrySet()) {
+            if (entry.getValue() > maxCantidad) {
+                maxCantidad = entry.getValue();
+                topProducto = entry.getKey();
+            }
+        }
+
+        if (topProducto != null) {
+            System.out.println("\n=== PRODUCTO MAS VENDIDO ===");
+            System.out.println("Producto: " + topProducto + " | Unidades vendidas: " + maxCantidad);
+        }
     }
-    
-    // Usar GestorBoletas.getLista() y contar cada producto y su cantidad vendida
-    private void getVentasHistoricas(){
-        
+
+    // Muestra el desglose completo de unidades vendidas por producto
+    public void getVentasHistoricas(ArrayList<Boleta> boletas) {
+        if (boletas == null || boletas.isEmpty()) {
+            System.out.println("No hay ventas registradas en el historial.");
+            return;
+        }
+
+        HashMap<String, Integer> conteo = obtenerConteoVentas(boletas);
+
+        System.out.println("\n=== VENTAS HISTORICAS ===");
+        for (Map.Entry<String, Integer> entry : conteo.entrySet()) {
+            System.out.println("Producto: " + entry.getKey() + " | Unidades vendidas: " + entry.getValue());
+        }
+    }
+    // Método auxiliar para iterar sobre todas las boletas y sumar cantidades por producto
+    private HashMap<String, Integer> obtenerConteoVentas(ArrayList<Boleta> boletas) {
+        HashMap<String, Integer> conteo = new HashMap<>();
+
+        for (Boleta b : boletas) {
+            ArrayList<Producto> productos = b.getProductos();
+            ArrayList<Integer> cantidades = b.getCantidades();
+
+            for (int i = 0; i < productos.size(); i++) {
+                String nombreProd = productos.get(i).getNombre();
+                int cantidadVendida = cantidades.get(i);
+
+                conteo.put(nombreProd, conteo.getOrDefault(nombreProd, 0) + cantidadVendida);
+            }
+        }
+
+        return conteo;
     }
 }

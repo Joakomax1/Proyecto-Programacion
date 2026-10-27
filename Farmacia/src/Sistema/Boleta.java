@@ -15,24 +15,24 @@ public class Boleta implements Serializable{
     private static final AtomicInteger counter = new AtomicInteger(1);// Genera contador para cada id de boleta
     private final int id;
     private final Usuario usuario;
-    private final ArrayList<Producto> productos;
-    private final ArrayList<Integer> cantidades;
-    private final ArrayList<Integer> valores;
+    private final ArrayList<Producto> producto;
+    private final ArrayList<Integer> cantidad;
+    private final ArrayList<Integer> valor;
 
     public Boleta(Usuario usuario, ArrayList<Producto> productos, ArrayList<Integer> cantidad, ArrayList<Integer> valor) {
         this.id = counter.getAndIncrement();// Añade id
         this.usuario = usuario;
-        this.productos = productos;
-        this.cantidades = cantidad;
-        this.valores = valor;
+        this.producto = productos;
+        this.cantidad = cantidad;
+        this.valor = valor;
     }
 
     // Suma de valor de todos los productos
     public int getPrecioTotal() {
         int total = 0;
-        int n = this.productos.size();// Por cada producto
+        int n = this.producto.size();// Por cada producto
         for (int i = 0; i < n; i++){
-            total += valores.get(i) * cantidades.get(i);// sumar valores por cantidad
+            total += valor.get(i) * cantidad.get(i);// sumar valores por cantidad
         }
         return total;
     }
@@ -41,8 +41,12 @@ public class Boleta implements Serializable{
         return this.usuario.getRut();
     }
     
-    public String getNombreProducto(Producto p) {
-        return p.getNombre();
+    public ArrayList<Producto> getProductos() {
+        return this.producto;
+    }
+
+    public ArrayList<Integer> getCantidades() {
+        return this.cantidad;
     }
 
     @Override
@@ -53,11 +57,11 @@ public class Boleta implements Serializable{
         sb.append(String.format("%-20s %-10s %-10s\n", "Producto", "Cantidad", "Precio Unit."));
         sb.append("------------------------------------------\n");
 
-        for (int i = 0; i < productos.size(); i++) {
+        for (int i = 0; i < producto.size(); i++) {
             sb.append(String.format("%-20s %-10d $%d\n",
-                    productos.get(i).getNombre(),
-                    cantidades.get(i),
-                    valores.get(i)));
+                    producto.get(i).getNombre(),
+                    cantidad.get(i),
+                    valor.get(i)));
         }
         sb.append("------------------------------------------\n");
         sb.append("TOTAL: $").append(getPrecioTotal()).append("\n");

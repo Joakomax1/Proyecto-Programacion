@@ -50,6 +50,9 @@ public abstract class Producto implements Vendible, Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    public void setStockComprado(int comprado){
+        this.stock -= comprado;
+    }
     
     // Getter ID unico
     public int getId() {
