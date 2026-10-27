@@ -1,4 +1,4 @@
-package Modelo;// [REQUISITO: Package]
+package Interfaces;// [REQUISITO: Package]
 
 /**
  *

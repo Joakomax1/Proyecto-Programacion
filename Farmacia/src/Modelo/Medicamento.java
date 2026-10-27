@@ -1,5 +1,6 @@
 package Modelo;
 
+
 import Enums.Marca;
 import java.io.Serializable;
 
@@ -26,16 +27,15 @@ public class Medicamento extends Producto implements Serializable {
 
     @Override
     public void procesarVenta() {
-        // Implementar lógica específica
     }
 
     @Override
     public void verificarStock() {
-        // Implementar lógica específica
+ 
     }
 
     @Override
     public void verificarReceta() {
-        // Implementar lógica específica
+
     }
 }

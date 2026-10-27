@@ -1,4 +1,5 @@
 package Modelo;
+import Interfaces.Vendible;
 import Enums.Estado;
 import Enums.Marca;
 import java.io.Serializable;

@@ -52,7 +52,7 @@ public class Boleta implements Serializable{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n=== BOLETA N° ").append(id).append(" ===\n");
+        sb.append("\n=== BOLETA Numero: ").append(id).append(" ===\n");
         sb.append("Cliente RUT: ").append(usuario.getRut()).append("\n");
         sb.append(String.format("%-20s %-10s %-10s\n", "Producto", "Cantidad", "Precio Unit."));
         sb.append("------------------------------------------\n");
