@@ -1,17 +1,15 @@
 package Gestores;
+
 import Enums.Marca;
+import Modelo.Cosmeticos;
+import Modelo.Medicamento;
 import Modelo.Producto;
-import Modelo.Usuario;
-import Sistema.Boleta;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import Modelo.Suplementos;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -21,53 +19,72 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author joako
  */
-
-
 public class GestorProductos {
+
     /*TODO:
     * MÃ©todos:
     * Cargar(abrir archiv, leer contenido, convertir en aray, inicializar en cosntructor)(por cada Clase)
     * listar(abrir archiv, leer contenido, convertir en aray, y return con array)
     * agregar(Abrir archivo, agregar nueva linea en el archivo(correspondiente, Usuarios, productos, etc.., y guardar datos )
     * 
-    */
+     */
     // TODO: Agregar los archivos productos, usuarios, boletas, etc...
     private static final String ARCHIVO = "productos.dat"; // nombre del archivo
 
     private ArrayList<Producto> lista;
-       // inicializar array
+    // inicializar array
+
     public GestorProductos() {
         lista = new ArrayList<>();
 
     }
-    public ArrayList getLista(){
+
+    public ArrayList getLista() {
         return lista;
     }
-    public void restarStockComprado(AtomicInteger id, int stockComprado){
-        
+
+    public Producto buscarPorId(int id) {
+        for (Producto p : lista) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
     }
+    //[REQUISITO: COLECCION]
+    public void ordenarPorPrecio() {
+        Collections.sort(lista, (p1, p2) -> Integer.compare(p1.getPrecio(), p2.getPrecio()));
+        System.out.println("Productos ordenados por precio ascendente.");
+    }
+    //[REQUISITO: COLECCION]
+    public void ordenarPorNombre() {
+        Collections.sort(lista, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+        System.out.println("Productos ordenados alfabéticamente por nombre.");
+    }
+
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Producto p) {
         lista.add(p);
-        System.out.println("Producto exitosamente agregado: " );
-       }
-    
+        System.out.println("Producto exitosamente agregado: ");
+    }
+
     // ── GUARDAR: escribe la lista al disco ───────────────────
     //  [REQUISITO: Persistencia]
     public void guardar() {
-        try (ObjectOutputStream oos =
-            new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
+        try (ObjectOutputStream oos
+                = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
             System.out.println(lista);
             oos.writeObject(lista);
             System.out.println("Guardado: " + lista.size() + " producto(s) en '"
-                               + ARCHIVO + "'.");
+                    + ARCHIVO + "'.");
 
         } catch (IOException e) {
             System.out.println("Error al guardar: " + e.getMessage());
         }
     }
+
     // ── listar: Mostrar todo ──────────────────
-    public boolean listar(){
+    public boolean listar() {
         if (lista.isEmpty()) {
             System.out.println("\nNo hay Stock!!!.");
             return false;
@@ -75,11 +92,11 @@ public class GestorProductos {
         System.out.println("\n=== Productos (" + lista.size() + ") ===");
         for (int i = 0; i < lista.size(); i++) {
             Producto p = lista.get(i);
-            System.out.println("  " + (i + 1) + ". " + "nombre: " + p.getNombre()+ " Stock:  " + p.getStock() + "  Precio:  " + p.getPrecio() );
+            System.out.println("  " + p.obtenerFichaDetallada());
         }
         return true;
     }
-    
+
     // ── CARGAR: lee la lista desde el disco ──────────────────
     //  [REQUISITO: Persistencia]
     @SuppressWarnings("unchecked")
@@ -87,28 +104,52 @@ public class GestorProductos {
         File archivo = new File(ARCHIVO);
 
         if (!archivo.exists() || archivo.length() == 0) {
-            System.out.println("No hay datos guardados. Lista vacía.");
+            System.out.println("No hay datos guardados PRODUCTOS.");
+            precargarDatos();
             return;
         }
 
-        try (ObjectInputStream ois =
-                new ObjectInputStream(new FileInputStream(ARCHIVO))) {
+        try (ObjectInputStream ois
+                = new ObjectInputStream(new FileInputStream(ARCHIVO))) {
 
             lista = (ArrayList<Producto>) ois.readObject();
             System.out.println("Cargado: " + lista.size() + " producto(s) desde '"
-                               + ARCHIVO + "'.");
+                    + ARCHIVO + "'.");
 
         } catch (IOException e) {
             System.out.println("Error al leer: " + e.getMessage());
             lista = new ArrayList<>();
+            precargarDatos();
 
         } catch (ClassNotFoundException e) {
             System.out.println("Archivo incompatible con esta versión.");
             lista = new ArrayList<>();
+            precargarDatos();
         }
     }
-    
-    public int getTamanio() { 
-        return lista.size(); 
+
+    public void precargarDatos() {
+        //Medicamentos
+        agregar(new Medicamento(15, 2500, "Paracetamol 500", false, Marca.Bayer));
+        agregar(new Medicamento(10, 8900, "Ibuprofeno 200", true, Marca.Pfizer_Chile));
+        agregar(new Medicamento(8, 12500, "Amoxicilina 250", true, Marca.Knop_Laboratorios));
+
+        // Suplementos
+        agregar(new Suplementos(20, 15900, "Creatina 1k", false, Marca.Wild_Protein));
+        agregar(new Suplementos(12, 19900, "Proteina 1kg", true, Marca.ProteinMix));
+        agregar(new Suplementos(25, 9900, "Doctor Simi", false, Marca.SimiVit));
+
+        // Cosmetuicos
+        agregar(new Cosmeticos(14, 14990, "Crema", false, Marca.CeraVe));
+        agregar(new Cosmeticos(9, 22990, "Isdin IV", false, Marca.Isdin));
+        agregar(new Cosmeticos(18, 11990, "Crema Vichy", true, Marca.Vichy));
+
+        System.out.println("9 productos agregados.");
+        guardar();
+        cargar();
     }
-} 
+
+    public int getTamanio() {
+        return lista.size();
+    }
+}

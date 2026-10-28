@@ -1,27 +1,26 @@
 package Modelo;
-import Interfaces.Vendible;
-import Enums.Estado;
-import Enums.Marca;
-import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- *
+/*
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
-public abstract class Producto implements Vendible, Serializable {
-    private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia    
-    // Genera contador para cada id de producto
+import Enums.Estado;
+import Enums.Marca;
+import Interfaces.Consultable;
+import Interfaces.Descontable;
+import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicInteger;
+//[REQUISITO: CLASE ABSTRACTA]
+public abstract class Producto implements Consultable, Descontable, Serializable {
+
+    private static final long serialVersionUID = 1L;
+    //// [REQUISITO: Persistencia]
     private static final AtomicInteger counter = new AtomicInteger(1);
+
     private final int id;
     protected int stock;
     protected int precio;
     protected String nombre;
-    private final Marca marca;
-
-    
-    //protected int staticID;
-  //  protected boolean estado;
+    protected Marca marca;
 
     public Producto(int stock, int precio, String nombre, Marca marca) {
         this.id = counter.getAndIncrement();
@@ -29,52 +28,55 @@ public abstract class Producto implements Vendible, Serializable {
         this.precio = precio;
         this.nombre = nombre;
         this.marca = marca;
-  //      this.estado = estado;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getStock() {
         return stock;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public int getPrecio() {
+        return precio;
     }
 
     public void setPrecio(int precio) {
         this.precio = precio;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public void setStockComprado(int comprado){
-        this.stock -= comprado;
+
+    public Marca getMarca() {
+        return marca;
     }
-    
-    // Getter ID unico
-    public int getId() {
-        return id;
-    }
-    public int getPrecio() {
-        return precio;
-    }
-    
-    public Estado getEstadoStock(){
-        if (stock>0){
+
+    public Estado getEstadoStock() {
+        if (stock > 0) {
             return Estado.con_Stock;
+        } else {
+            return Estado.sin_Stock;
         }
-        return Estado.sin_Stock;
     }
-
- //   public int getStaticID() {
-  //      return staticID;
- //   }
-
-  //  public boolean isEstado() {
-     //   return estado;
-   // }
-}    
+    // [REQUISITO: POLIMORFISMO]
+    public int getPrecioDescontado() {
+        return (int) (precio - calcularDescuento());
+    }
+   
+    @Override
+    public String toString() {
+        return String.format("id: %d | nombre: %s | Stock: %d | $%d, %s",
+                id, nombre, stock, precio, marca);
+    }
+}

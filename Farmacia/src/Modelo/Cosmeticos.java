@@ -7,12 +7,15 @@ import Enums.Marca;
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 public class Cosmeticos extends Producto {
-    
+
+    private static final long serialVersionUID = 1L;
     private boolean organico;
-    
-    public Cosmeticos(int stock, int precio, String nombre, boolean organico, Marca marca){
+    //[REQUISITO: FINAL]
+    private final float DESCUENTO = (float) 0.10;
+
+    public Cosmeticos(int stock, int precio, String nombre, boolean organico, Marca marca) {
         super(stock, precio, nombre, marca);
-        this.organico=organico;
+        this.organico = organico;
     }
 
     public boolean isOrganico() {
@@ -23,44 +26,29 @@ public class Cosmeticos extends Producto {
         this.organico = organico;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public int getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     @Override
-    public void procesarVenta() {
-        
+    public int calcularDescuento() {
+        //Cosmeticos NO organicos tienen 10% de descuento
+        if (organico == true) {
+            return 0;
+        } else {
+            return (int) (DESCUENTO * precio);
+        }
     }
 
-    @Override
-    public void verificarStock() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-
-    }
-
-    @Override
-    public void verificarReceta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    @Override//[REQUISITO: INTERFACE]
+    public String obtenerFichaDetallada() {
+        if (organico == false) {//DESCONTADO
+            return String.format("COSMETICO | ID: %d | %s | Marca: %s | Organico: %s | Precio: $%d DESCONTADO: $%d",
+                    getId(), nombre, marca, organico ? "SI" : "NO", precio, getPrecioDescontado());
+        } else {
+            return String.format("COSMETICO | ID: %d | %s | Marca: %s | Organico: %s | Precio: $%d",
+                    getId(), nombre, marca, organico ? "SI" : "NO", precio);
+        }
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + " | Orgánico: " + (organico ? "SI" : "NO");
+    }
 }

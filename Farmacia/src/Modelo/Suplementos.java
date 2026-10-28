@@ -1,13 +1,17 @@
 package Modelo;// [REQUISITO: Package]
 
-import Enums.Marca;
-
 /**
  *
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
-public class Suplementos extends Producto{
+import Enums.Marca;
+
+public class Suplementos extends Producto {
+    //[REQUISITO: STATIC]
+    private static final long serialVersionUID = 1L;
     private boolean origenAnimal;
+    //[REQUISITO: FINAL]
+    private final float DESCUENTO = (float) 0.35;
 
     public Suplementos(int stock, int precio, String nombre, boolean origenAnimal, Marca marca) {
         super(stock, precio, nombre, marca);
@@ -22,43 +26,29 @@ public class Suplementos extends Producto{
         this.origenAnimal = origenAnimal;
     }
 
-    public int getStock() {
-        return stock;
+    @Override
+    public int calcularDescuento() {
+        //Suplementos origen NO animal tienen 35% de descuento
+        if (origenAnimal == true) {
+            return 0;
+        } else {
+            return (int) (precio * DESCUENTO);
+        }
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public int getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    @Override//[REQUISITO: INTERFACE]
+    public String obtenerFichaDetallada() {
+        if (origenAnimal == false) {// DESCONTADO
+            return String.format("SUPLEMENTO | ID: %d | %s | Marca: %s | Origen Animal: %s | Precio: $%d DESCONTADO: $%d)",
+                    getId(), nombre, marca, origenAnimal ? "SI" : "NO", precio, calcularDescuento());
+        } else {
+            return String.format("SUPLEMENTO | ID: %d | %s | Marca: %s | Origen Animal: %s | Precio: $%d)",
+                    getId(), nombre, marca, origenAnimal ? "SI" : "NO", precio);
+        }
     }
 
     @Override
-    public void procesarVenta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String toString() {
+        return super.toString() + " | Origen Animal: " + (origenAnimal ? "SI" : "NO");
     }
-
-    @Override
-    public void verificarStock() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void verificarReceta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
 }

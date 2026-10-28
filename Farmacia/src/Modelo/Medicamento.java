@@ -1,16 +1,16 @@
 package Modelo;
 
-
-import Enums.Marca;
-import java.io.Serializable;
-
- /*
+/*
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
+import Enums.Marca;
 
-public class Medicamento extends Producto implements Serializable {
+public class Medicamento extends Producto {
+
     private static final long serialVersionUID = 1L;
     private boolean receta;
+    //[REQUISITO: FINAL]
+    private final float DESCUENTO = (float) 0.25;
 
     public Medicamento(int stock, int precio, String nombre, boolean receta, Marca marca) {
         super(stock, precio, nombre, marca);
@@ -26,16 +26,29 @@ public class Medicamento extends Producto implements Serializable {
     }
 
     @Override
-    public void procesarVenta() {
+    public int calcularDescuento() {
+        // Medicamentos CON receta tienen 25% de descuento
+        if (receta == false) {
+            return 0;
+        } else {
+            return (int) (precio * DESCUENTO);
+        }
+    }
+
+    @Override//[REQUISITO: INTERFACE]
+    public String obtenerFichaDetallada() {
+        if (receta == false) {// DESCONTADO
+            return String.format("MEDICAMENTO | ID: %d | %s | Marca: %s | Requiere Receta: %s | Precio: $%d DESCONTADO: $%d",
+                    getId(), nombre, marca, receta ? "SI" : "NO", precio, getPrecioDescontado());
+        } else {
+            return String.format("MEDICAMENTO | ID: %d | %s | Marca: %s | Requiere Receta: %s | Precio: $%d",
+                    getId(), nombre, marca, receta ? "SI" : "NO", precio);
+        }
+
     }
 
     @Override
-    public void verificarStock() {
- 
-    }
-
-    @Override
-    public void verificarReceta() {
-
+    public String toString() {
+        return super.toString() + " | Receta: " + (receta ? "SI" : "NO");
     }
 }

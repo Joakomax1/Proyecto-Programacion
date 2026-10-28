@@ -1,238 +1,218 @@
-package Sistema;// [REQUISITO: Package]
+package Sistema;
 
-import Enums.Estado;
-import Modelo.Usuario;
-import Gestores.GestorProductos;
-import Gestores.GestorUsuarios;
-import Gestores.GestorBoletas;
-import Gestores.GestorEstadisticas;
-import Modelo.Producto;
-import Modelo.Medicamento;
-import Modelo.Suplementos;
-import Modelo.Cosmeticos;
-import java.util.Scanner;
 import Enums.Marca;
 import Excepciones.RegistroUsuarioExcepcion;
 import Excepciones.StockInsuficienteException;
+import Gestores.GestorBoletas;
+import Gestores.GestorEstadisticas;
+import Gestores.GestorProductos;
+import Gestores.GestorUsuarios;
+import Modelo.Cosmeticos;
+import Modelo.Medicamento;
+import Modelo.Producto;
+import Modelo.Suplementos;
+import Modelo.Usuario;
 import java.util.ArrayList;
-/**
- *
- * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
- */
+import java.util.Scanner;
 
 public class Menu {
+
     private GestorProductos gestorP = new GestorProductos();
     private GestorUsuarios gestorU = new GestorUsuarios();
     private GestorBoletas gestorB = new GestorBoletas();
     private GestorEstadisticas gestorE = new GestorEstadisticas();
-    // [REQUISITO: Menu-scanner]
+
     public void mostrarMenu() {
         Scanner sc = new Scanner(System.in);
-        // Cargar archivos memoria
+
+        // Carga persistente completa
         gestorU.cargar();
         gestorP.cargar();
-//        gestorU.listar();
-//        gestorP.listar();
+        gestorB.cargar(gestorU, gestorP);
+
         int opcion;
         do {
             mostrarOpciones();
-            try { // [REQUISITO: Excepciones]
+            try {
                 opcion = Integer.parseInt(sc.nextLine());
                 switch (opcion) {
-                    case 1:// Listar procutos                       
-                        if (mostrarProductos()) { // Mostrar retorna true or false si tiene stock
-                            System.out.println("\nSelecciona el producto a comprar: 0 para volver atras: ");
-                            opcion = getInt(sc);
-                            if (opcion == 0) {
-                                opcion = 99;// de lo contrario hace cascada a comprar
-                                break;
+                    case 1: // Mostrar / Comprar Productos
+                        if (gestorP.listar()) {
+                            System.out.println("\nSelecciona ID del producto a comprar (0 para volver): ");
+                            int idSel = getInt(sc);
+                            if (idSel != 0) {
+                                comprarProductoPorId(sc, idSel);
                             }
-                            comprarProductos(sc, opcion); // Pasa el producto ya seleccionado
                         }
                         break;
-                    case 2://Agregar Usuario
-                        gestorU.agregar(agregarUsuario(sc));
+                    case 2: // Buscar Producto por ID
+                        System.out.print("Ingresa el ID del producto a buscar: ");
+                        int idBuscar = getInt(sc);
+                        Producto pBuscado = gestorP.buscarPorId(idBuscar);
+                        if (pBuscado != null) {
+                            System.out.println("\nProducto Encontrado:\n" + pBuscado.obtenerFichaDetallada());
+                        } else {
+                            System.out.println("Producto no encontrado.");
+                        }
                         break;
-                    case 3://Agregar Producto
+                    case 3: // Ordenar Productos
+                        System.out.println("1. Ordenar por Precio | 2. Ordenar por Nombre");
+                        int subO = getInt(sc);
+                        if (subO == 1) {
+                            gestorP.ordenarPorPrecio();
+                        } else if (subO == 2) {
+                            gestorP.ordenarPorNombre();
+                        }
+                        gestorP.listar();
+                        break;
+                    case 4: // Agregar Usuario
+                        try {
+                            gestorU.agregar(crearUsuario(sc));
+                        } catch (RegistroUsuarioExcepcion e) {
+                            System.out.println("Error al agregar usuario: " + e.getMessage());
+                        }
+                        break;
+                    case 5: // Agregar Producto
                         agregarProducto(sc);
                         break;
-                    case 4://Editar Producto
-                        // TODO: INVOCAR FUNCIONES
+                    case 6: // Consultar Perfil Cliente por RUT
+                        System.out.print("Ingresa el RUT del usuario: ");
+                        String rutB = sc.nextLine();
+                        Usuario usuarioEncontrado = gestorU.buscarPorRut(rutB);
+                        if (usuarioEncontrado != null) {
+                            System.out.println(usuarioEncontrado.obtenerFichaDetallada());
+                        } else {
+                            System.out.println("Usuario no encontrado.");
+                        }
                         break;
-                    case 5://Eliminar Producto
-                        // TODO: INVOCAR FUNCIONES
+
+                    case 7: // Historial Global de Boletas
+                        gestorB.listar();
                         break;
-                    case 6://Estadisticas
+                    case 8: // Estadísticas
                         gestorE.getTopComprador(gestorU.getLista());
                         gestorE.getTopProducto(gestorB.getLista());
                         gestorE.getVentasHistoricas(gestorB.getLista());
                         break;
-                    case 0://Cerrar
+                    case 0:
+                        System.out.println("Cerrando el sistema y guardando estado...");
                         break;
                     default:
-                        System.out.println("Opción inválida");
+                        System.out.println("Opción inválida.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Error: Debe ingresar un numero valido.");
+            } catch (NumberFormatException e) {// [REQUISITO EXEPCION] // SCANNER
+
+                System.out.println("Error: Debe ingresar un número válido.");
                 opcion = 99;
-            } catch (RegistroUsuarioExcepcion | StockInsuficienteException e) { // [REQUISITO: Excepciones]
-                System.out.println("Error del Sistema: " + e.getMessage());
+            } catch (StockInsuficienteException e) {// [REQUISITO EXEPCION]
+
+                System.out.println("Error de Stock: " + e.getMessage());
                 opcion = 99;
             }
         } while (opcion != 0);
+
+        // Guardado de estado final
+        gestorU.guardar();
+        gestorP.guardar();
+        gestorB.guardar();
         sc.close();
-        System.out.println("Farmacia Cerrada");
-        // Guardar usuarios 
-        gestorU.guardar(); 
-        gestorU.listar();
-        // Guardar Productos
-        gestorP.guardar(); 
-        gestorP.listar();
+        System.out.println("Sistema finalizado.");
     }
 
     public static void mostrarOpciones() {
-        System.out.println("\n=== MENU ===");
-        System.out.println("\n=== COMPRAR ===");
-        System.out.println("1. Mostrar Productos");
-        System.out.println("\n=== GESTION ===");
-        System.out.println("2. Agregar usuario");
-        System.out.println("3. Agregar producto");
-        System.out.println("4. editar producto");
-        System.out.println("5. eliminar producto");
-        System.out.println("6. Estadisticas");
+        System.out.println("\n=== SISTEMA DE GESTION FARMACIA ===");
+        System.out.println("1. Mostrar y Comprar Productos");
+        System.out.println("2. Buscar Producto por ID");
+        System.out.println("3. Ordenar Catalogo de Productos");
+        System.out.println("4. Registrar Usuario");
+        System.out.println("5. Registrar Producto");
+        System.out.println("6. Consultar Perfil de Cliente por RUT");
+        System.out.println("7. Ver Historial Global de Boletas");
+        System.out.println("8. Ver Reportes y Estadisticas");
         System.out.println("0. Salir");
-        System.out.print("\nOpcion: ");
-    }
-    
-    public boolean mostrarProductos(){
-        // Retorna True or False dependiendo de Stock
-         return gestorP.listar();  
-    }
-    
-    public void mostrarUsuarios(){
-         gestorU.listar();
-    }
-    
-    public Usuario agregarUsuario(Scanner sc){
-        System.out.println("Ingresa nombre usuario ");
-        String nombre = sc.nextLine();
-        System.out.println("Ingresa Rut usuario: ");
-        String rut = sc.nextLine();
-        Usuario u = new Usuario(nombre, rut);
-        return u;     
+        System.out.print("Selecciona una opcion: ");
     }
 
-    public void comprarProductos(Scanner sc, int opcion) {
-        ArrayList<Integer> cantidad = new ArrayList<>();
+    private Usuario crearUsuario(Scanner sc) {
+        System.out.println("Ingresa nombre del usuario: ");
+        String nombre = sc.nextLine();
+        System.out.println("Ingresa RUT del usuario: ");
+        String rut = sc.nextLine();
+        return new Usuario(nombre, rut);
+    }
+
+    private void comprarProductoPorId(Scanner sc, int idProducto) {
+        ArrayList<Producto> productos = new ArrayList<>();
+        ArrayList<Integer> cantidades = new ArrayList<>();
         ArrayList<Integer> valores = new ArrayList<>();
-        ArrayList<Producto> listaCompra = new ArrayList<>();
-        int cantidadProductos = gestorP.getLista().size();
-        //Comprar productos looop
-        do {
-            
-            // Seleccionar producto
-            while (opcion < 1 || opcion > cantidadProductos) {
-                System.out.println("\nProducto no existe, intente de nuevo: ");
-                opcion = getInt(sc);
-            }
-            // Conseguir objeto producto seleccionado
-            Producto producto = (Producto) gestorP.getLista().get(opcion - 1);
-            // Validar si el producto ya se encuentra en el carrito de compras
-            if (isProductoEnListaCompra(listaCompra, producto)) {
-                System.out.println("\nEl producto ya existe en la lista de compra, selecciona otro producto.");
-            } else if (producto.getEstadoStock() != Estado.con_Stock) {
-                // Verificar estado de stock
-                System.out.println("\nEl producto se encuentra sin stock.");
-            } else {
-                int stockProducto = producto.getStock();
-                // Pedir cantidad
-                System.out.println("\nCuantas unidades? Disponibles: " + stockProducto);
-                int cant = getInt(sc);
-                // Validar unidades solicitadas lanzando excepcion personalizada
-                if (cant < 1 || cant > stockProducto) {
-                    throw new StockInsuficienteException(stockProducto, cant);
-                }
-                // Agregar nuevo producto a la lista de compra
-                listaCompra.add(producto);
-                cantidad.add(cant);
-                valores.add(producto.getPrecio());
-            }
-            // Preguntar si desea continuar comprando
-            if (gestorP.listar()) {
-                System.out.print("Seguir comprando? (0 para terminar): ");
-                opcion = getInt(sc);
-            } else {
-                opcion = 0; // si no hay stock termina
-            }
-        } while (opcion != 0);
-        // verificar lista no vacia antes de continuar
-        if (listaCompra.isEmpty()) {
-            System.out.println("\nNo se seleccionaron productos.");
+
+        Producto producto = gestorP.buscarPorId(idProducto);
+        // ID existe o NO
+        if (producto == null) {
+            System.out.println("El producto con ID " + idProducto + " no existe.");
             return;
         }
-        // verificar venta
-        
-        // TODO: Preguntar Si desea agregar nuevo usuario o no
-        // Si se agrega verificar que el usuario existe
-        Usuario usuario = agregarUsuario(sc);
-        gestorU.agregar(usuario);
-        // Crear Boleta
-        Boleta boleta = new Boleta(usuario, listaCompra, cantidad, valores);
-        gestorB.agregar(boleta);
-        // Adjuntar boleta a usuario
-        System.out.println(boleta);
-        usuario.setTransacciones(boleta);
-        usuario.setTotalTransacciones(boleta.getPrecioTotal());
-        System.out.println("\n=== TRANSACCION COMPLETA ===");
-        // restar stock comprado
-        for (int i = 0; i < listaCompra.size(); i++) {
-            Producto p = listaCompra.get(i);
-            p.setStock(p.getStock() - cantidad.get(i));
+        // Stock es 0
+        if (producto.getStock() <= 0) {
+            System.out.println("El producto sin stock.");
+            return;
         }
-    }
-    // Verificar si el producto existe en la lista de compra para no duplicar compra
-    // error al restar stock disponible de la compra(duplicados)
-    public boolean isProductoEnListaCompra(ArrayList<Producto> listaCompra, Producto p) {
-        return listaCompra.contains(p);
-    }
+        // Seleccion de stock en rango
+        System.out.println("Cuantas unidades? Disponibles: " + producto.getStock());
+        int cant = getInt(sc);
+        if (cant < 1 || cant > producto.getStock()) {
+            throw new StockInsuficienteException(producto.getStock(), cant);
+        }
+        // Si se agrega verificar que el usuario existe
+        System.out.println("Ingresa el RUT del cliente que realiza la compra: ");
+        String rut = sc.nextLine();
+        Usuario usuario = gestorU.buscarPorRut(rut);
+        // Registrar usuario
+        if (usuario == null) {
+            System.out.println("Usuario no encontrado, Registrate.");
+            usuario = crearUsuario(sc);
+            gestorU.agregar(usuario);
+        }
+        // datos definidos
+        productos.add(producto);
+        cantidades.add(cant);
+        valores.add(producto.calcularDescuento());
 
-    /*partimos preguntando de que tipo es el medicamento no obstante es un dato
-    que arrastraremos para despues ya que primero pediremos los datos generales
-    para no tener que sobreescribir los datos que cumplen todos los productos tantas veces
-    */
-public void agregarProducto(Scanner sc) {
+        // restar stock comprado
+        producto.setStock(producto.getStock() - cant);
+        // Crear Boleta y adjuntar al usuario
+        Boleta boleta = new Boleta(usuario, productos, cantidades, valores);
+        gestorB.agregar(boleta);
+        usuario.addTransaccion(boleta);
+        usuario.setTotalGastado(boleta.getPrecioTotal());
+
+        System.out.println("\n=== COMPRA COMPLETADA CON EXITO ===");
+        System.out.println(boleta);
+    }
+    private void agregarProducto(Scanner sc) {
         System.out.println("\nTipo de producto: 1-Medicamento 2-Suplemento 3-Cosmetico");
         int opcion;
+        //Solicitar datos
         do {
             opcion = getInt(sc);
             if (opcion < 1 || opcion > 3) {
                 System.out.println("\nOpcion invalida, intente denuevo:    ");
             }
         } while (opcion < 1 || opcion > 3);
-        
-        //Solicitar datos
+
         System.out.println("Nombre del producto: ");
         String nombre = sc.nextLine();
         System.out.println("Precio del producto: ");
         int precio = getInt(sc);
         System.out.println("Stock del producto: ");
-        int stock = getInt(sc);    
+        int stock = getInt(sc);
         // Imprime Todas las Marcas
-        
         Marca.listarMarcas();
         // Seleccionar marca
-        
-        System.out.println("Que marca es el producto: ");
-        int marcaSelect;
-        do {
-            marcaSelect = getInt(sc);
-            if (marcaSelect < 1 || marcaSelect > Marca.getCantidad()) {
-                System.out.println("  Opcion invalida, intente denuevo:    ");
-            }
-        } while (marcaSelect < 1 || marcaSelect > Marca.getCantidad());
-        // convierte seleccion en un enum
+        System.out.println("SeleccionaMarca: ");
+        int marcaSelect = getInt(sc);
         Marca marca = Marca.getPorPos(marcaSelect);
-        
+
         switch (opcion) {
             case 1:// Medicamento
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
@@ -261,7 +241,8 @@ public void agregarProducto(Scanner sc) {
                 break;
         }
     }
-    public int getInt(Scanner sc){
-            return Integer.parseInt(sc.nextLine());
-        }
+
+    private int getInt(Scanner sc) {
+        return Integer.parseInt(sc.nextLine());
+    }
 }

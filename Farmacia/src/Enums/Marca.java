@@ -5,7 +5,7 @@ package Enums;
  * @authors Jopaquin Gutierrez, Ian Teixeira, Felipe Lorca
  */
 public enum Marca {
- 
+
     Bayer,
     Knop_Laboratorios,
     Pfizer_Chile,
@@ -19,18 +19,18 @@ public enum Marca {
     Ensure,
     Wild_Protein,
     ProteinMix;
-    
-    public static Marca getPorPos(int indice){
+
+    public static Marca getPorPos(int indice) {
         return values()[indice];
     }
-    
-    public static void listarMarcas(){
-        for(Marca m: Marca.values()){
+
+    public static void listarMarcas() {
+        for (Marca m : Marca.values()) {
             System.out.println(m.name());
         }
     }
-    
-    public static int getCantidad(){
+
+    public static int getCantidad() {
         int val = Marca.values().length;
         return val;
     }
