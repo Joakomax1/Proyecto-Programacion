@@ -1,7 +1,6 @@
 package Modelo;// [REQUISITO: Package]
 
 import Interfaces.Consultable;
-import Sistema.Boleta;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class Usuario implements Consultable, Serializable {
         this.totalGastado += boleta.getPrecioTotal();
     }
 
-    @Override//[REQUISITO: INTERFACE]
+    @Override//[REQUISITO: INTERFACE] // [REQUISITO: 3.1. Gestión de clases principales]]
     public String obtenerFichaDetallada() {
         StringBuilder sb = new StringBuilder();
         

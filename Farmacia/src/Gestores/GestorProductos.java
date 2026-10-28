@@ -5,15 +5,15 @@ import Modelo.Cosmeticos;
 import Modelo.Medicamento;
 import Modelo.Producto;
 import Modelo.Suplementos;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
 /**
  *
@@ -21,14 +21,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class GestorProductos {
 
-    /*TODO:
-    * MÃ©todos:
-    * Cargar(abrir archiv, leer contenido, convertir en aray, inicializar en cosntructor)(por cada Clase)
-    * listar(abrir archiv, leer contenido, convertir en aray, y return con array)
-    * agregar(Abrir archivo, agregar nueva linea en el archivo(correspondiente, Usuarios, productos, etc.., y guardar datos )
-    * 
-     */
-    // TODO: Agregar los archivos productos, usuarios, boletas, etc...
     private static final String ARCHIVO = "productos.dat"; // nombre del archivo
 
     private ArrayList<Producto> lista;
@@ -51,11 +43,13 @@ public class GestorProductos {
         }
         return null;
     }
+
     //[REQUISITO: COLECCION]
     public void ordenarPorPrecio() {
         Collections.sort(lista, (p1, p2) -> Integer.compare(p1.getPrecio(), p2.getPrecio()));
         System.out.println("Productos ordenados por precio ascendente.");
     }
+
     //[REQUISITO: COLECCION]
     public void ordenarPorNombre() {
         Collections.sort(lista, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
@@ -65,7 +59,7 @@ public class GestorProductos {
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Producto p) {
         lista.add(p);
-        System.out.println("Producto exitosamente agregado: ");
+        System.out.println("Producto exitosamente agregado: " + p.getNombre());
     }
 
     // ── GUARDAR: escribe la lista al disco ───────────────────
@@ -73,7 +67,7 @@ public class GestorProductos {
     public void guardar() {
         try (ObjectOutputStream oos
                 = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
-            System.out.println(lista);
+            //System.out.println(lista);
             oos.writeObject(lista);
             System.out.println("Guardado: " + lista.size() + " producto(s) en '"
                     + ARCHIVO + "'.");
@@ -104,7 +98,7 @@ public class GestorProductos {
         File archivo = new File(ARCHIVO);
 
         if (!archivo.exists() || archivo.length() == 0) {
-            System.out.println("No hay datos guardados PRODUCTOS.");
+            System.out.println("No hay datos guardados PRODUCTOS GENERAR.\n");
             precargarDatos();
             return;
         }
@@ -123,11 +117,12 @@ public class GestorProductos {
 
         } catch (ClassNotFoundException e) {
             System.out.println("Archivo incompatible con esta versión.");
+            // TODO: remover archivo
             lista = new ArrayList<>();
             precargarDatos();
         }
     }
-
+    // [REQUISITO: 4. Datos Precargados Obligatorios]
     public void precargarDatos() {
         //Medicamentos
         agregar(new Medicamento(15, 2500, "Paracetamol 500", false, Marca.Bayer));

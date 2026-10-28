@@ -35,7 +35,7 @@ public class Medicamento extends Producto {
         }
     }
 
-    @Override//[REQUISITO: INTERFACE]
+    @Override//[REQUISITO: INTERFACE] // [REQUISITO: 3.1. Gestión de clases principales]]
     public String obtenerFichaDetallada() {
         if (receta == false) {// DESCONTADO
             return String.format("MEDICAMENTO | ID: %d | %s | Marca: %s | Requiere Receta: %s | Precio: $%d DESCONTADO: $%d",

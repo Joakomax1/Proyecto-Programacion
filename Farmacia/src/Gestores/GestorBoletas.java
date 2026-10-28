@@ -1,9 +1,10 @@
 package Gestores;
 
 import Enums.Marca;
+import Excepciones.StockInsuficienteException;
 import Modelo.Producto;
 import Modelo.Usuario;
-import Sistema.Boleta;
+import Modelo.Boleta;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,8 +36,13 @@ public class GestorBoletas {
 
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Boleta b) {
-        lista.add(b);
-        System.out.println("Producto Comprado Exitosamente: ");
+        if (0 < (b.getCantidad() - b.getProducto().getStock())) {
+            throw new StockInsuficienteException(b.getProducto().getStock(), (int) b.getCantidad());
+        } else {
+            lista.add(b);
+            System.out.println("Producto Comprado Exitosamente: " + b.getProducto().getNombre());
+        }
+
     }
 
     // ── GUARDAR: escribe la lista al disco ───────────────────
@@ -44,7 +50,7 @@ public class GestorBoletas {
     public void guardar() {
         try (ObjectOutputStream oos
                 = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
-            System.out.println(lista);
+            //System.out.println(lista);
             oos.writeObject(lista);
             System.out.println("Guardado: " + lista.size() + " Compras(s) en '"
                     + ARCHIVO + "'.");
@@ -57,7 +63,7 @@ public class GestorBoletas {
     // ── listar: Mostrar todo ──────────────────
     public void listar() {
         if (lista.isEmpty()) {
-            System.out.println("No boletas.");
+            System.out.println("Sin boletas.");
             return;
         }
         System.out.println("\n=== Boleta (" + lista.size() + ") ===");
@@ -74,7 +80,7 @@ public class GestorBoletas {
         File archivo = new File(ARCHIVO);
 
         if (!archivo.exists() || archivo.length() == 0) {
-            System.out.println("No hay datos guardados BOLETAS.");
+            System.out.println("No hay datos guardados BOLETAS GENERAR.\n");
             precargarDatos(gestorU, gestorP);
             return;
         }
@@ -93,41 +99,38 @@ public class GestorBoletas {
 
         } catch (ClassNotFoundException e) {
             System.out.println("Archivo incompatible con esta versión.");
+            // TODO: remover archivo
             lista = new ArrayList<>();
             precargarDatos(gestorU, gestorP);
         }
     }
 
+    // [REQUISITO: 4. Datos Precargados Obligatorios]
     public void precargarDatos(GestorUsuarios gestorU, GestorProductos gestorP) {
         if (gestorU.getLista().isEmpty() || gestorP.getLista().isEmpty()) {
             gestorU.precargarDatos();
             gestorP.precargarDatos();
             return;
         }
-
-        // Generar 8 boletas
-        int cantidad = 8;
-        for (int i = 0; i < cantidad; i++) {
-            ArrayList<Producto> productos = new ArrayList<>();
-            ArrayList<Integer> cantidades = new ArrayList<>();
-            ArrayList<Integer> valores = new ArrayList<>();
+        int cantidad = 0;
+        for (int i = 0; i < 8; i++) {
+            Producto producto;
+            int valor;
             // Conseguir usuarios y productos
-
-            Usuario u = (Usuario) gestorU.getLista().get(i % 3);
-            Producto p = (Producto) gestorP.getLista().get(i % 3);
+            Usuario u = (Usuario) gestorU.getLista().get((i % 2) + 1);
+            Producto p = (Producto) gestorP.getLista().get((i % 2) + 1);
             // rellenar arraylists con datos
-
-            productos.add(p);
-            cantidades.add(1 % 3);
-            valores.add(p.getPrecio());
+            producto = p;
+            cantidad = i % 3;
+            valor = p.getPrecio();
             // generar boleta 
-            Boleta b = new Boleta(u, productos, cantidades, valores);
+            Boleta b = new Boleta(u, producto, cantidad, valor);
             agregar(b);
             // agregar transaccion al usuario
             u.addTransaccion(b);
             u.setTotalGastado(b.getPrecioTotal());
         }
-        System.out.println(String.format("%d Boletas generadas", cantidad));
+        System.out.println(String.format("%d Boletas generadas", 8));
         guardar();
     }
 

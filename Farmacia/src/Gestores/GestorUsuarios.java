@@ -1,5 +1,6 @@
 package Gestores;
 
+import Excepciones.RegistroUsuarioExcepcion;
 import Modelo.Usuario;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,8 +43,21 @@ public class GestorUsuarios {
 
     // ── Guardar: lee la lista desde el disco ──────────────────
     public void agregar(Usuario u) {
+        // [REQUISITO 2.7. Manejo de excepciones]
+
+        // Validar que el objeto y campos no esten vacios
+        if (u == null || u.getNombre() == null || u.getNombre().trim().isEmpty()
+                || u.getRut() == null || u.getRut().trim().isEmpty()) {
+            throw new RegistroUsuarioExcepcion("Datos vacios");
+        }
+         // Validar si rut esta registrado
+        if (buscarPorRut(u.getRut()) != null) {
+            throw new RegistroUsuarioExcepcion(u.getNombre(), u.getRut(), buscarPorRut(u.getRut()).getRut());
+        }
+
+        // 3. Si pasa las validaciones, se agrega
         lista.add(u);
-        System.out.println("\n=Usuario agragado: " + u.getNombre());
+        System.out.println("Usuario agregado exitosamente: " + u.getNombre() + " (" + u.getRut() + ")");
     }
 
     // ── GUARDAR: escribe la lista al disco ───────────────────
@@ -51,13 +65,15 @@ public class GestorUsuarios {
     public void guardar() {
         try (ObjectOutputStream oos
                 = new ObjectOutputStream(new FileOutputStream(ARCHIVO))) {
-            System.out.println(lista);
+            //System.out.println(lista);
             oos.writeObject(lista);
             System.out.println("Guardado: " + lista.size() + " producto(s) en '"
                     + ARCHIVO + "'.");
 
         } catch (IOException e) {
             System.out.println("Error al guardar: " + e.getMessage());
+        } catch (RegistroUsuarioExcepcion e) {
+            System.out.println("Error: " + e);
         }
     }
 
@@ -68,7 +84,7 @@ public class GestorUsuarios {
             precargarDatos();
             return;
         }
-        System.out.println("\n=== Usuarios (" + lista.size() + ") ===");
+        System.out.println("\nUsuarios (" + lista.size() + ") ===");
         for (Usuario u : lista) {
             System.out.println("  " + u);
         }
@@ -81,7 +97,7 @@ public class GestorUsuarios {
         File archivo = new File(ARCHIVO);
 
         if (!archivo.exists() || archivo.length() == 0) {
-            System.out.println("No hay datos guardados USUARIOS.");
+            System.out.println("No hay datos guardados USUARIOS GENERAR.");
             precargarDatos();
             poblarHashmap();
             return;
@@ -102,6 +118,7 @@ public class GestorUsuarios {
 
         } catch (ClassNotFoundException e) {
             System.out.println("Archivo incompatible con esta versión.");
+            // TODO: remover archivo
             lista = new ArrayList<>();
             precargarDatos();
             poblarHashmap();
@@ -109,7 +126,7 @@ public class GestorUsuarios {
         }
     }
 
-    public void poblarHashmap() {// [REQUISITO: Colecciones]
+    public void poblarHashmap() {// [REQUISITO: COLECCIONES]
         // Poblar Hashmap
         for (int i = 0; i < lista.size(); i++) {
             mapaUsuarios.put(lista.get(i).getRut(), lista.get(i));
@@ -117,6 +134,7 @@ public class GestorUsuarios {
 
     }
 
+    // [REQUISITO: 4. Datos Precargados Obligatorios]
     public void precargarDatos() {
 
         // 5 Usuarios obligatorios
@@ -126,12 +144,8 @@ public class GestorUsuarios {
         agregar(new Usuario("pepe peper", "444"));
         agregar(new Usuario("pepe pepet", "555"));
 
-        System.out.println("5 usuarios agregados.");
+        System.out.println("5 usuarios agregados.\n");
         guardar();
         cargar();
-    }
-
-    public int getTamanio() {
-        return lista.size();
     }
 }

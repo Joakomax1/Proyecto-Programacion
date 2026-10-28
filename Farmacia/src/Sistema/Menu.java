@@ -1,5 +1,6 @@
 package Sistema;
 
+import Modelo.Boleta;
 import Enums.Marca;
 import Excepciones.RegistroUsuarioExcepcion;
 import Excepciones.StockInsuficienteException;
@@ -36,7 +37,7 @@ public class Menu {
             try {
                 opcion = Integer.parseInt(sc.nextLine());
                 switch (opcion) {
-                    case 1: // Mostrar / Comprar Productos
+                    case 1: // Mostrar / Comprar Productos // [REQUISITO: 3.3. Operaciones principales]
                         if (gestorP.listar()) {
                             System.out.println("\nSelecciona ID del producto a comprar (0 para volver): ");
                             int idSel = getInt(sc);
@@ -55,8 +56,8 @@ public class Menu {
                             System.out.println("Producto no encontrado.");
                         }
                         break;
-                    case 3: // Ordenar Productos
-                        System.out.println("1. Ordenar por Precio | 2. Ordenar por Nombre");
+                    case 3: // Ordenar Productos // [REQUISITO: 3.1. Gestión de clases principales]]
+                        System.out.println("1. Ordenar por Precio 2. Ordenar por Nombre");
                         int subO = getInt(sc);
                         if (subO == 1) {
                             gestorP.ordenarPorPrecio();
@@ -72,10 +73,10 @@ public class Menu {
                             System.out.println("Error al agregar usuario: " + e.getMessage());
                         }
                         break;
-                    case 5: // Agregar Producto
+                    case 5: // Agregar Producto // [REQUISITO: 3.1. Gestión de clases principales]]
                         agregarProducto(sc);
                         break;
-                    case 6: // Consultar Perfil Cliente por RUT
+                    case 6: // Consultar Perfil Cliente por RUT // [REQUISITO: 3.2. Gestión de clientes / usuarios]]
                         System.out.print("Ingresa el RUT del usuario: ");
                         String rutB = sc.nextLine();
                         Usuario usuarioEncontrado = gestorU.buscarPorRut(rutB);
@@ -85,14 +86,13 @@ public class Menu {
                             System.out.println("Usuario no encontrado.");
                         }
                         break;
-
                     case 7: // Historial Global de Boletas
                         gestorB.listar();
                         break;
-                    case 8: // Estadísticas
+                    case 8: // Estadísticas// [REQUISITO: 3.4. Ranking / Reporte]
                         gestorE.getTopComprador(gestorU.getLista());
                         gestorE.getTopProducto(gestorB.getLista());
-                        gestorE.getVentasHistoricas(gestorB.getLista());
+                        gestorE.getVentasHistoricas(gestorB.getLista());// [REQUISITO: 3.3. Operaciones principales]
                         break;
                     case 0:
                         System.out.println("Cerrando el sistema y guardando estado...");
@@ -102,7 +102,7 @@ public class Menu {
                 }
             } catch (NumberFormatException e) {// [REQUISITO EXEPCION] // SCANNER
 
-                System.out.println("Error: Debe ingresar un número válido.");
+                System.out.println("Error: Debe ingresar un numero valido.");
                 opcion = 99;
             } catch (StockInsuficienteException e) {// [REQUISITO EXEPCION]
 
@@ -112,6 +112,7 @@ public class Menu {
         } while (opcion != 0);
 
         // Guardado de estado final
+        // [REQUISITO: 3.5. General ]
         gestorU.guardar();
         gestorP.guardar();
         gestorB.guardar();
@@ -134,17 +135,28 @@ public class Menu {
     }
 
     private Usuario crearUsuario(Scanner sc) {
-        System.out.println("Ingresa nombre del usuario: ");
+        System.out.println("\n=== REGISTRO DE USUARIO ===");
+        System.out.print("Ingresa nombre del usuario: ");
         String nombre = sc.nextLine();
-        System.out.println("Ingresa RUT del usuario: ");
+        System.out.print("Ingresa RUT del usuario: ");
         String rut = sc.nextLine();
-        return new Usuario(nombre, rut);
+        Usuario nuevoUsuario = new Usuario(nombre, rut);
+        try { // [REQUISITO 2.7. Manejo de excepciones]
+            // Intentamos agregar el usuario a través del gestor
+            gestorU.agregar(nuevoUsuario);
+            return nuevoUsuario; // Retorna el usuario si se guardó con éxito
+        } catch (RegistroUsuarioExcepcion e) {
+            // Se atrapa el throw generado en GestorUsuarios
+            System.out.println("\nERROR : " + e.getMessage());
+        }
+
+        return null;
     }
 
-    private void comprarProductoPorId(Scanner sc, int idProducto) {
-        ArrayList<Producto> productos = new ArrayList<>();
-        ArrayList<Integer> cantidades = new ArrayList<>();
-        ArrayList<Integer> valores = new ArrayList<>();
+    public void comprarProductoPorId(Scanner sc, int idProducto) {
+        Producto productos;
+        int cantidades;
+        int valores;
 
         Producto producto = gestorP.buscarPorId(idProducto);
         // ID existe o NO
@@ -158,25 +170,30 @@ public class Menu {
             return;
         }
         // Seleccion de stock en rango
-        System.out.println("Cuantas unidades? Disponibles: " + producto.getStock());
+        System.out.println("Cuantas unidades? Disponibles: " + producto.getStock() + " : ");
         int cant = getInt(sc);
         if (cant < 1 || cant > producto.getStock()) {
-            throw new StockInsuficienteException(producto.getStock(), cant);
+            throw new StockInsuficienteException(producto.getStock(), cant);// [REQUISITO 2.7. Manejo de excepciones]
         }
         // Si se agrega verificar que el usuario existe
         System.out.println("Ingresa el RUT del cliente que realiza la compra: ");
         String rut = sc.nextLine();
         Usuario usuario = gestorU.buscarPorRut(rut);
         // Registrar usuario
-        if (usuario == null) {
-            System.out.println("Usuario no encontrado, Registrate.");
-            usuario = crearUsuario(sc);
-            gestorU.agregar(usuario);
-        }
+        System.out.println("\nUsuario no encontrado, Registrate.");
+        do {
+            try {
+                usuario = crearUsuario(sc);
+            } catch (RegistroUsuarioExcepcion e) {
+                // Se atrapa el throw generado en GestorUsuarios
+                System.out.println("\nERROR Hack : " + e.getMessage());
+            }
+        } while (usuario == null);
+
         // datos definidos
-        productos.add(producto);
-        cantidades.add(cant);
-        valores.add(producto.calcularDescuento());
+        productos = producto;
+        cantidades = cant;
+        valores = producto.calcularDescuento();
 
         // restar stock comprado
         producto.setStock(producto.getStock() - cant);
@@ -189,7 +206,8 @@ public class Menu {
         System.out.println("\n=== COMPRA COMPLETADA CON EXITO ===");
         System.out.println(boleta);
     }
-    private void agregarProducto(Scanner sc) {
+
+    public void agregarProducto(Scanner sc) {
         System.out.println("\nTipo de producto: 1-Medicamento 2-Suplemento 3-Cosmetico");
         int opcion;
         //Solicitar datos
@@ -242,7 +260,7 @@ public class Menu {
         }
     }
 
-    private int getInt(Scanner sc) {
+    public int getInt(Scanner sc) {
         return Integer.parseInt(sc.nextLine());
     }
 }

@@ -74,9 +74,9 @@ public abstract class Producto implements Consultable, Descontable, Serializable
         return (int) (precio - calcularDescuento());
     }
    
-    @Override
+    @Override // [REQUISITO: 3.1. Gestión de clases principales]]
     public String toString() {
-        return String.format("id: %d | nombre: %s | Stock: %d | $%d, %s",
+        return String.format("id: %d | nombre: %s | Stock: %d | $%d, %s\n",
                 id, nombre, stock, precio, marca);
     }
 }

@@ -1,4 +1,4 @@
-package Sistema;// [REQUISITO: Package]
+package Modelo;// [REQUISITO: Package]
 
 /**
  *
@@ -17,11 +17,11 @@ public class Boleta implements Serializable, Consultable {
     private static final AtomicInteger counter = new AtomicInteger(1);// Genera contador para cada id de boleta
     private final int id;
     private final Usuario usuario;
-    private final ArrayList<Producto> producto;
-    private final ArrayList<Integer> cantidad;
-    private final ArrayList<Integer> valorPorUnidad;
+    private final Producto producto;
+    private final int cantidad;
+    private final int valorPorUnidad;
 
-    public Boleta(Usuario usuario, ArrayList<Producto> productos, ArrayList<Integer> cantidad, ArrayList<Integer> valor) {
+    public Boleta(Usuario usuario, Producto productos, int cantidad, int valor) {
         this.id = counter.getAndIncrement();// Añade id
         this.usuario = usuario;
         this.producto = productos;
@@ -32,10 +32,8 @@ public class Boleta implements Serializable, Consultable {
     // Suma de valor de todos los productos
     public int getPrecioTotal() {
         int total = 0;
-        int n = this.producto.size();// Por cada producto
-        for (int i = 0; i < n; i++) {
-            total += valorPorUnidad.get(i) * cantidad.get(i);// sumar valores por cantidad
-        }
+
+        total += valorPorUnidad * cantidad;// sumar valores por cantidad
         return total;
     }
 
@@ -47,11 +45,11 @@ public class Boleta implements Serializable, Consultable {
         return this.usuario.getRut();
     }
 
-    public ArrayList<Producto> getProductos() {
+    public Producto getProducto() {
         return this.producto;
     }
 
-    public ArrayList<Integer> getCantidades() {
+    public int getCantidad() {
         return this.cantidad;
     }
 
@@ -62,19 +60,17 @@ public class Boleta implements Serializable, Consultable {
 
     @Override
     public String toString() {
-
+ // [REQUISITO: 3.1. Gestión de clases principales]]
         StringBuilder string = new StringBuilder();
         string.append("\n=== BOLETA Numero: ").append(id).append(" ===\n");
         string.append("Cliente RUT: ").append(usuario.getRut()).append("\n");
         string.append(String.format("%-20s %-10s %-10s\n", "Producto", "Cantidad", "Precio Unit."));
         string.append("------------------------------------------\n");
 
-        for (int i = 0; i < producto.size(); i++) {
-            string.append(String.format("%-20s %-10d $%d\n",
-                    producto.get(i).getNombre(),
-                    cantidad.get(i),
-                    valorPorUnidad.get(i)));
-        }
+        string.append(String.format("%-20s %-10d $%d\n",
+                producto.getNombre(),
+                cantidad,
+                valorPorUnidad));
 
         string.append("------------------------------------------\n");
         string.append("TOTAL: $").append(getPrecioTotal()).append("\n");

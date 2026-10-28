@@ -2,7 +2,7 @@ package Gestores;
 
 import Modelo.Producto;
 import Modelo.Usuario;
-import Sistema.Boleta;
+import Modelo.Boleta;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,14 +36,13 @@ public class GestorEstadisticas {
             return;
         }
         //[REQUISITO: HASHMAP]
-        HashMap<String, Integer> conteo = obtenerConteoVentas(boletas);
+        HashMap<Producto, Integer> conteo = obtenerConteoVentas(boletas);
         String topProducto = null;
         int maxCantidad = 0;
-
-        for (Map.Entry<String, Integer> entry : conteo.entrySet()) {
+        for (Map.Entry<Producto, Integer> entry : conteo.entrySet()) {
             if (entry.getValue() > maxCantidad) {
+                topProducto = entry.getKey().getNombre();
                 maxCantidad = entry.getValue();
-                topProducto = entry.getKey();
             }
         }
 
@@ -53,32 +52,28 @@ public class GestorEstadisticas {
         }
     }
 
-    // Muestra el desglose completo de unidades vendidas por producto
+    // Muestra fichadetallada completo de productos 
     public void getVentasHistoricas(ArrayList<Boleta> boletas) {
         if (boletas == null || boletas.isEmpty()) {
             System.out.println("No hay ventas registradas en el historial.");
             return;
         }
-
-        HashMap<String, Integer> conteo = obtenerConteoVentas(boletas);
+        //[REQUISITO: HASHMAP]
+        HashMap<Producto, Integer> conteo = obtenerConteoVentas(boletas);
         System.out.println("\n===VENTAS HISTORICAS ===");
-        for (Map.Entry<String, Integer> entry : conteo.entrySet()) {
-            System.out.println("Producto: " + entry.getKey() + " | Unidades Vendidas: " + entry.getValue());
+        for (Map.Entry<Producto, Integer> entry : conteo.entrySet()) {
+            System.out.println("Producto: " + entry.getKey().getNombre() + " | Unidades Vendidas: " + entry.getValue());
         }
     }
 
-    // Método auxiliar para iterar sobre todas las boletas y sumar cantidades por producto
-    private HashMap<String, Integer> obtenerConteoVentas(ArrayList<Boleta> boletas) {
-        HashMap<String, Integer> conteo = new HashMap<>();
+    // Helper iterar boletas y sumar cantidades por producto
+    private HashMap<Producto, Integer> obtenerConteoVentas(ArrayList<Boleta> boletas) {
+        HashMap<Producto, Integer> conteo = new HashMap<>();//[REQUISITO: HASHMAP]
         for (Boleta b : boletas) {
-            ArrayList<Producto> productos = b.getProductos();
-            ArrayList<Integer> cantidades = b.getCantidades();
-
-            for (int i = 0; i < productos.size(); i++) {
-                String nombreProd = productos.get(i).getNombre();
-                int cantidadVendida = cantidades.get(i);
-                conteo.put(nombreProd, conteo.getOrDefault(nombreProd, 0) + cantidadVendida);
-            }
+            Producto producto = b.getProducto();
+            int cantidad = b.getCantidad();
+            int cantidadVendida = cantidad;
+            conteo.put(producto, conteo.getOrDefault(producto, 0) + cantidadVendida);
         }
         return conteo;
     }

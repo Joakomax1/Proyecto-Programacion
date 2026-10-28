@@ -7,15 +7,14 @@ package Excepciones;
 // [REQUISITO EXEPCION]
 public class RegistroUsuarioExcepcion extends RuntimeException {
 
-    public RegistroUsuarioExcepcion(String nombre) {
-        super("Error registro usuario: " + nombre
-        );
+    public RegistroUsuarioExcepcion(String error) {
+        super("Error registro Usuario: " + error);
     }
-
     public RegistroUsuarioExcepcion(String nombre, String rut) {
-        super("Error registro usuario: " + nombre + " "
-                + " Rut: " + rut
-        );
+        super(String.format("Error registro de Usario: %s & rut %s", nombre, rut));
     }
 
+    public RegistroUsuarioExcepcion(String nombre, String rut, String rutRepetido) {
+        super(String.format("Error registro de Usario: %s & rut %s, Usuario ya existe, la contraseña es %s", nombre, rut, rutRepetido));
+    }
 }

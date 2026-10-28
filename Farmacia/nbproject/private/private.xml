@@ -13,11 +13,20 @@
         </group>
         <group>
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Sistema/Menu.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Boleta.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Gestores/GestorProductos.java</file>
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Gestores/GestorEstadisticas.java</file>
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Gestores/GestorUsuarios.java</file>
-            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Usuario.java</file>
-            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Sistema/Boleta.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Excepciones/RegistroUsuarioExcepcion.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Excepciones/StockInsuficienteException.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Producto.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Interfaces/Consultable.java</file>
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Gestores/GestorBoletas.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Interfaces/Descontable.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Sistema/Main.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Enums/Estado.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Enums/Marca.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Usuario.java</file>
         </group>
     </open-files>
 </project-private>
