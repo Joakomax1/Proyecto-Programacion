@@ -21,6 +21,7 @@ public abstract class Producto implements Consultable, Descontable, Serializable
     protected int precio;
     protected String nombre;
     protected Marca marca;
+    protected Estado estado;
 
     public Producto(int stock, int precio, String nombre, Marca marca) {
         this.id = counter.getAndIncrement();
@@ -28,6 +29,9 @@ public abstract class Producto implements Consultable, Descontable, Serializable
         this.precio = precio;
         this.nombre = nombre;
         this.marca = marca;
+        setStock(stock);
+        
+
     }
 
     public int getId() {
@@ -38,10 +42,20 @@ public abstract class Producto implements Consultable, Descontable, Serializable
         return stock;
     }
 
-    public void setStock(int stock) {
+    public final void setStock(int stock) {
         this.stock = stock;
+        if(stock == 0){
+            setEstado(false);
+        } else {
+            setEstado(true);
+        }
     }
+    
+    public void setEstado(boolean valor) {
+        
+        this.estado = valor ? Estado.con_Stock : Estado.sin_Stock;
 
+    }
     public int getPrecio() {
         return precio;
     }
@@ -62,12 +76,8 @@ public abstract class Producto implements Consultable, Descontable, Serializable
         return marca;
     }
 
-    public Estado getEstadoStock() {
-        if (stock > 0) {
-            return Estado.con_Stock;
-        } else {
-            return Estado.sin_Stock;
-        }
+    public Estado getEstado() {
+        return estado;
     }
     // [REQUISITO: POLIMORFISMO]
     public int getPrecioDescontado() {

@@ -1,5 +1,6 @@
 package Sistema;
 
+import Enums.Estado;
 import Modelo.Boleta;
 import Enums.Marca;
 import Excepciones.RegistroUsuarioExcepcion;
@@ -172,7 +173,7 @@ public class Menu {
         // Seleccion de stock en rango
         System.out.println("Cuantas unidades? Disponibles: " + producto.getStock() + " : ");
         int cant = getInt(sc);
-        if (cant < 1 || cant > producto.getStock()) {
+        if (cant < 1 || cant > producto.getStock() && producto.getEstado() == Estado.con_Stock) {
             throw new StockInsuficienteException(producto.getStock(), cant);// [REQUISITO 2.7. Manejo de excepciones]
         }
         // Si se agrega verificar que el usuario existe

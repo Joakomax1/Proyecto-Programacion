@@ -23,6 +23,10 @@
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Usuario.java</file>
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Excepciones/RegistroUsuarioExcepcion.java</file>
             <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Excepciones/StockInsuficienteException.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Medicamento.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Modelo/Suplementos.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Interfaces/Consultable.java</file>
+            <file>file:/C:/Users/01ian/Desktop/farmacia/Proyecto-Programacion/Farmacia/src/Interfaces/Descontable.java</file>
         </group>
     </open-files>
 </project-private>
