@@ -143,9 +143,8 @@ public class Menu {
         String rut = sc.nextLine();
         Usuario nuevoUsuario = new Usuario(nombre, rut);
         try { // [REQUISITO 2.7. Manejo de excepciones]
-            // Intentamos agregar el usuario a través del gestor
             gestorU.agregar(nuevoUsuario);
-            return nuevoUsuario; // Retorna el usuario si se guardó con éxito
+            return nuevoUsuario; // Retorna el usuario si se guardo correctamente
         } catch (RegistroUsuarioExcepcion e) {
             // Se atrapa el throw generado en GestorUsuarios
             System.out.println("\nERROR : " + e.getMessage());
@@ -195,7 +194,6 @@ public class Menu {
         // datos definidos
         cantidad = cant;
         valor = producto.getPrecioDescontado();
-        
         // Crear Boleta y adjuntar al usuario
         Boleta boleta = new Boleta(usuario, producto, cantidad, valor);
         gestorB.agregar(boleta);
@@ -203,7 +201,6 @@ public class Menu {
         producto.setStock(producto.getStock() - cant);
         usuario.addTransaccion(boleta);
         //usuario.setTotalGastado(boleta.getPrecioTotal());
-
         System.out.println("\n=== COMPRA COMPLETADA CON EXITO ===");
         System.out.println(boleta);
     }
@@ -218,7 +215,7 @@ public class Menu {
                 System.out.println("\nOpcion invalida, intente denuevo:    ");
             }
         } while (opcion < 1 || opcion > 3);
-
+        // solicitar datos
         System.out.println("Nombre del producto: ");
         String nombre = sc.nextLine();
         System.out.println("Precio del producto: ");
@@ -231,7 +228,6 @@ public class Menu {
         System.out.println("SeleccionaMarca: ");
         int marcaSelect = getInt(sc);
         Marca marca = Marca.getPorPos(marcaSelect);
-
         switch (opcion) {
             case 1:// Medicamento
                 System.out.println("El medicamento requiere receta 1-Si 2-NO: ");
@@ -256,7 +252,7 @@ public class Menu {
                 gestorP.agregar(new Cosmeticos(stock, precio, nombre, organico, marca));
                 break;
             default:
-                System.out.println("Opción no válida.");
+                System.out.println("Opcion no valida.");
                 break;
         }
     }

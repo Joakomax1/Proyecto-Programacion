@@ -45,7 +45,7 @@ public class GestorUsuarios {
     public void agregar(Usuario u) {
         // [REQUISITO 2.7. Manejo de excepciones]
 
-        // Validar que el objeto y campos no esten vacios
+        // Validar que el objeto no sea null ni vacio
         if (u == null || u.getNombre() == null || u.getNombre().trim().isEmpty()
                 || u.getRut() == null || u.getRut().trim().isEmpty()) {
             throw new RegistroUsuarioExcepcion("Datos vacios");
@@ -55,7 +55,7 @@ public class GestorUsuarios {
             throw new RegistroUsuarioExcepcion(u.getNombre(), u.getRut(), buscarPorRut(u.getRut()).getRut());
         }
 
-        // 3. Si pasa las validaciones, se agrega
+        // Si pasa las validaciones, se agrega
         lista.add(u);
         System.out.println("Usuario agregado exitosamente: " + u.getNombre() + " (" + u.getRut() + ")");
     }

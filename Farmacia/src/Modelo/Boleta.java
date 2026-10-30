@@ -60,20 +60,21 @@ public class Boleta implements Serializable, Consultable {
 
     @Override
     public String toString() {
- // [REQUISITO: 3.1. Gestión de clases principales]]
-        StringBuilder string = new StringBuilder();
-        string.append("\n=== BOLETA Numero: ").append(id).append(" ===\n");
-        string.append("Cliente RUT: ").append(usuario.getRut()).append("\n");
-        string.append(String.format("%-20s %-10s %-10s\n", "Producto", "Cantidad", "Precio Unit."));
-        string.append("------------------------------------------\n");
+        // [REQUISITO: 3.1. Gestión de clases principales]]
+        String resultado = "";
+        resultado += "\n=== BOLETA Numero: " + id + " ===\n";
+        resultado += "Cliente RUT: " + usuario.getRut() + "\n";
+        resultado += String.format("%-20s %-10s %-10s\n", "Producto", "Cantidad", "Precio Unit.");
+        resultado += "------------------------------------------\n";
 
-        string.append(String.format("%-20s %-20d $%-15d\n",
+        resultado += String.format("%-20s %-20d $%-15d\n",
                 producto.getNombre(),
                 cantidad,
-                valorPorUnidad));
+                valorPorUnidad);
 
-        string.append("------------------------------------------\n");
-        string.append("TOTAL: $").append(getPrecioTotal()).append("\n");
-        return string.toString();
+        resultado += "------------------------------------------\n";
+        resultado += "TOTAL: $" + getPrecioTotal() + "\n";
+
+        return resultado;
     }
 }

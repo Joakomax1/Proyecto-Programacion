@@ -40,7 +40,7 @@ public class Usuario implements Consultable, Serializable {
     public int getTotalTransacciones() {
         return totalGastado;
     }
-    
+
     public void addTransaccion(Boleta boleta) {
         this.transacciones.add(boleta);
         this.totalGastado += boleta.getPrecioTotal();
@@ -48,20 +48,21 @@ public class Usuario implements Consultable, Serializable {
 
     @Override//[REQUISITO: INTERFACE] // [REQUISITO: 3.1. Gestión de clases principales]]
     public String obtenerFichaDetallada() {
-        StringBuilder sb = new StringBuilder();
-        
-        sb.append("\n=== PERFIL DE CLIENTE ===\n")
-                .append("Nombre: ").append(nombre).append("\n")
-                .append("RUT: ").append(rut).append("\n")
-                .append("Total Gastado: $").append(totalGastado).append("\n")
-                .append("Compras realizadas: ").append(transacciones.size()).append("\n");
+        String resultado = ""; // Crea un String común
+
+        resultado += "\n=== PERFIL DE CLIENTE ===\n";
+        resultado += "Nombre: " + nombre + "\n";
+        resultado += "RUT: " + rut + "\n";
+        resultado += "Total Gastado: $" + totalGastado + "\n";
+        resultado += "Compras realizadas: " + transacciones.size() + "\n";
+
         if (!transacciones.isEmpty()) {
-            sb.append("\n-- Historial de Boletas --\n");
+            resultado += "\n-- Historial de Boletas --\n";
             for (Boleta b : transacciones) {
-                sb.append(" Boleta Numero: ").append(b.getId()).append(" | Total: $").append(b.getPrecioTotal()).append("\n");
+                resultado += " Boleta Numero: " + b.getId() + " | Total: $" + b.getPrecioTotal() + "\n";
             }
         }
-        return sb.toString();
+        return resultado;
     }
 
     @Override
