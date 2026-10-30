@@ -58,7 +58,7 @@ public class Usuario implements Consultable, Serializable {
         if (!transacciones.isEmpty()) {
             sb.append("\n-- Historial de Boletas --\n");
             for (Boleta b : transacciones) {
-                sb.append(" Boleta N° ").append(b.getId()).append(" | Total: $").append(b.getPrecioTotal()).append("\n");
+                sb.append(" Boleta Numero: ").append(b.getId()).append(" | Total: $").append(b.getPrecioTotal()).append("\n");
             }
         }
         return sb.toString();
