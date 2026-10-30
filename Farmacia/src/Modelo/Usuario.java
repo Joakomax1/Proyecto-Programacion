@@ -15,7 +15,6 @@ public class Usuario implements Consultable, Serializable {
     private static final long serialVersionUID = 1L; // [REQUISITO: Persistencia]
     private String rut;
     private String nombre;
-    private LocalDate fechaCreacion = LocalDate.now();
     private ArrayList<Boleta> transacciones;
     private int totalGastado;
 
@@ -42,12 +41,6 @@ public class Usuario implements Consultable, Serializable {
         return totalGastado;
     }
     
-    
-    public LocalDate getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-            
     public void addTransaccion(Boleta boleta) {
         this.transacciones.add(boleta);
         this.totalGastado += boleta.getPrecioTotal();
@@ -60,7 +53,6 @@ public class Usuario implements Consultable, Serializable {
         sb.append("\n=== PERFIL DE CLIENTE ===\n")
                 .append("Nombre: ").append(nombre).append("\n")
                 .append("RUT: ").append(rut).append("\n")
-                .append("Fecha Registro: ").append(fechaCreacion).append("\n")
                 .append("Total Gastado: $").append(totalGastado).append("\n")
                 .append("Compras realizadas: ").append(transacciones.size()).append("\n");
         if (!transacciones.isEmpty()) {
