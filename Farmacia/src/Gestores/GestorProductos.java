@@ -47,13 +47,13 @@ public class GestorProductos {
     //[REQUISITO: COLECCION]
     public void ordenarPorPrecio() {
         Collections.sort(lista, (p1, p2) -> Integer.compare(p1.getPrecio(), p2.getPrecio()));
-        System.out.println("Productos ordenados por precio ascendente.");
+        System.out.println("Productos ordenados por precio ascendente. [menor a mayor]");
     }
 
     //[REQUISITO: COLECCION]
     public void ordenarPorNombre() {
         Collections.sort(lista, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
-        System.out.println("Productos ordenados alfabéticamente por nombre.");
+        System.out.println("Productos ordenados alfabeticamente por nombre. [A-Z]");
     }
 
     // ── Guardar: lee la lista desde el disco ──────────────────
@@ -135,9 +135,9 @@ public class GestorProductos {
         agregar(new Suplementos(25, 9900, "Doctor Simi", false, Marca.SimiVit));
 
         // Cosmetuicos
-        agregar(new Cosmeticos(14, 14990, "Crema", false, Marca.CeraVe));
+        agregar(new Cosmeticos(14, 15990, "Crema", false, Marca.CeraVe));
         agregar(new Cosmeticos(9, 22990, "Isdin IV", false, Marca.Isdin));
-        agregar(new Cosmeticos(18, 11990, "Crema Vichy", true, Marca.Vichy));
+        agregar(new Cosmeticos(18, 67990, "Crema Vichy", true, Marca.Vichy));
 
         System.out.println("9 productos agregados.");
         guardar();
