@@ -39,11 +39,11 @@ public class Suplementos extends Producto {
     @Override//[REQUISITO: INTERFACE] // [REQUISITO: 3.1. Gestión de clases principales]]
     public String obtenerFichaDetallada() {
         if (origenAnimal == false) {// DESCONTADO
-            return String.format("SUPLEMENTO | ID: %d | %s | Marca: %s | Origen Animal: %s | Precio: $%d DESCONTADO: $%d)",
-                    getId(), nombre, marca, origenAnimal ? "SI" : "NO", precio, calcularDescuento());
+            return String.format("SUPLEMENTO | ID: %d | %s | Marca: %s | Origen Animal: %s | Precio: $%d DESCONTADO: $%d, | Stock: %d",
+                    getId(), nombre, marca, origenAnimal ? "SI" : "NO", precio, calcularDescuento(), stock);
         } else {
-            return String.format("SUPLEMENTO | ID: %d | %s | Marca: %s | Origen Animal: %s | Precio: $%d)",
-                    getId(), nombre, marca, origenAnimal ? "SI" : "NO", precio);
+            return String.format("SUPLEMENTO | ID: %d | %s | Marca: %s | Origen Animal: %s | Precio: $%d | Stock: %d",
+                    getId(), nombre, marca, origenAnimal ? "SI" : "NO", precio, stock);
         }
     }
 

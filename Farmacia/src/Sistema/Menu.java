@@ -154,11 +154,11 @@ public class Menu {
     }
 
     public void comprarProductoPorId(Scanner sc, int idProducto) {
-        Producto productos;
-        int cantidades;
-        int valores;
+        Producto producto;
+        int cantidad;
+        int valor;
 
-        Producto producto = gestorP.buscarPorId(idProducto);
+        producto = gestorP.buscarPorId(idProducto);
         // ID existe o NO
         if (producto == null) {
             System.out.println("El producto con ID " + idProducto + " no existe.");
@@ -180,26 +180,26 @@ public class Menu {
         String rut = sc.nextLine();
         Usuario usuario = gestorU.buscarPorRut(rut);
         // Registrar usuario
-        System.out.println("\nUsuario no encontrado, Registrate.");
-        do {
-            try {
-                usuario = crearUsuario(sc);
-            } catch (RegistroUsuarioExcepcion e) {
-                // Se atrapa el throw generado en GestorUsuarios
-                System.out.println("\nERROR Hack : " + e.getMessage());
-            }
-        } while (usuario == null);
-
+        if (usuario == null) {
+            System.out.println("\nUsuario no encontrado, Registrate.");
+            do {
+                try {
+                    usuario = crearUsuario(sc);
+                } catch (RegistroUsuarioExcepcion e) {
+                    // Se atrapa el throw generado en GestorUsuarios
+                    System.out.println("\nERROR Hack : " + e.getMessage());
+                }
+            } while (usuario == null);
+        }
         // datos definidos
-        productos = producto;
-        cantidades = cant;
-        valores = producto.calcularDescuento();
-
+        cantidad = cant;
+        valor = producto.getPrecioDescontado();
+        
+        // Crear Boleta y adjuntar al usuario
+        Boleta boleta = new Boleta(usuario, producto, cantidad, valor);
+        gestorB.agregar(boleta);
         // restar stock comprado
         producto.setStock(producto.getStock() - cant);
-        // Crear Boleta y adjuntar al usuario
-        Boleta boleta = new Boleta(usuario, productos, cantidades, valores);
-        gestorB.agregar(boleta);
         usuario.addTransaccion(boleta);
         //usuario.setTotalGastado(boleta.getPrecioTotal());
 

@@ -39,11 +39,11 @@ public class Cosmeticos extends Producto {
     @Override//[REQUISITO: INTERFACE] // [REQUISITO: 3.1. Gestión de clases principales]]
     public String obtenerFichaDetallada() {
         if (organico == false) {//DESCONTADO
-            return String.format("COSMETICO | ID: %d | %s | Marca: %s | Organico: %s | Precio: $%d DESCONTADO: $%d",
-                    getId(), nombre, marca, organico ? "SI" : "NO", precio, getPrecioDescontado());
+            return String.format("COSMETICO | ID: %d | %s | Marca: %s | Organico: %s | Precio: $%d DESCONTADO: $%d | Stock: %d",
+                    getId(), nombre, marca, organico ? "SI" : "NO", precio, getPrecioDescontado(), stock);
         } else {
-            return String.format("COSMETICO | ID: %d | %s | Marca: %s | Organico: %s | Precio: $%d",
-                    getId(), nombre, marca, organico ? "SI" : "NO", precio);
+            return String.format("COSMETICO | ID: %d | %s | Marca: %s | Organico: %s | Precio: $%d | Stock: %d",
+                    getId(), nombre, marca, organico ? "SI" : "NO", precio, stock);
         }
     }
     

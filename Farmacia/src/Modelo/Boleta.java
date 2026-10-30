@@ -67,7 +67,7 @@ public class Boleta implements Serializable, Consultable {
         string.append(String.format("%-20s %-10s %-10s\n", "Producto", "Cantidad", "Precio Unit."));
         string.append("------------------------------------------\n");
 
-        string.append(String.format("%-20s %-10d $%d\n",
+        string.append(String.format("%-20s %-20d $%-15d\n",
                 producto.getNombre(),
                 cantidad,
                 valorPorUnidad));
