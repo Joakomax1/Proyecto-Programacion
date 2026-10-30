@@ -46,9 +46,7 @@ public class Usuario implements Consultable, Serializable {
     public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
-    public void setTotalGastado(int gastado){
-        this.totalGastado += gastado;
-    }
+
             
     public void addTransaccion(Boleta boleta) {
         this.transacciones.add(boleta);

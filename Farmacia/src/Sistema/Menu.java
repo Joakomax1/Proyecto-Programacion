@@ -201,7 +201,7 @@ public class Menu {
         Boleta boleta = new Boleta(usuario, productos, cantidades, valores);
         gestorB.agregar(boleta);
         usuario.addTransaccion(boleta);
-        usuario.setTotalGastado(boleta.getPrecioTotal());
+        //usuario.setTotalGastado(boleta.getPrecioTotal());
 
         System.out.println("\n=== COMPRA COMPLETADA CON EXITO ===");
         System.out.println(boleta);

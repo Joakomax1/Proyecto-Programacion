@@ -121,14 +121,14 @@ public class GestorBoletas {
             Producto p = (Producto) gestorP.getLista().get((i % 2) + 1);
             // rellenar arraylists con datos
             producto = p;
-            cantidad = i % 3;
+            cantidad = (i % 3) + 1;
             valor = p.getPrecio();
             // generar boleta 
             Boleta b = new Boleta(u, producto, cantidad, valor);
             agregar(b);
             // agregar transaccion al usuario
             u.addTransaccion(b);
-            u.setTotalGastado(b.getPrecioTotal());
+            //u.setTotalGastado(b.getPrecioTotal());
         }
         System.out.println(String.format("%d Boletas generadas", 8));
         guardar();
