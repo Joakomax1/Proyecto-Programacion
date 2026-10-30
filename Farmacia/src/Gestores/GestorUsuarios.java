@@ -113,6 +113,7 @@ public class GestorUsuarios {
         } catch (IOException e) {
             System.out.println("Error al leer: " + e.getMessage());
             lista = new ArrayList<>();
+            // TODO: remover archivo maybe
             precargarDatos();
             poblarHashmap();
 

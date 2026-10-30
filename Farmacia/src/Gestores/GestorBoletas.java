@@ -118,7 +118,7 @@ public class GestorBoletas {
             int valor;
             // Conseguir usuarios y productos
             Usuario u = (Usuario) gestorU.getLista().get((i % 2) + 1);
-            Producto p = (Producto) gestorP.getLista().get((i % 2) + 1);
+            Producto p = (Producto) gestorP.getLista().get((i % 3) + 1);
             // rellenar arraylists con datos
             producto = p;
             cantidad = (i % 3) + 1;

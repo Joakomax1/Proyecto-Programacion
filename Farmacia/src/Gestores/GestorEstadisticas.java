@@ -37,18 +37,18 @@ public class GestorEstadisticas {
         }
         //[REQUISITO: HASHMAP]
         HashMap<Producto, Integer> conteo = obtenerConteoVentas(boletas);
-        String topProducto = null;
+        Producto topProducto = null;
         int maxCantidad = 0;
         for (Map.Entry<Producto, Integer> entry : conteo.entrySet()) {
             if (entry.getValue() > maxCantidad) {
-                topProducto = entry.getKey().getNombre();
+                topProducto = entry.getKey();
                 maxCantidad = entry.getValue();
             }
         }
 
         if (topProducto != null) {
             System.out.println("\n=== PRODUCTO MAS VENDIDO ===");
-            System.out.println("Producto: " + topProducto + " | Unidades vendidas: " + maxCantidad);
+            System.out.println("Producto: " + topProducto.getNombre() + " | Unidades vendidas: " + maxCantidad + " | TOTAL: $" + maxCantidad * topProducto.getPrecio() );
         }
     }
 
@@ -60,10 +60,17 @@ public class GestorEstadisticas {
         }
         //[REQUISITO: HASHMAP]
         HashMap<Producto, Integer> conteo = obtenerConteoVentas(boletas);
+        int total = 0;
+        int actual = 0;
         System.out.println("\n===VENTAS HISTORICAS ===");
         for (Map.Entry<Producto, Integer> entry : conteo.entrySet()) {
-            System.out.println("Producto: " + entry.getKey().getNombre() + " | Unidades Vendidas: " + entry.getValue());
+            actual = entry.getKey().getPrecio() * entry.getValue();
+            total += actual;
+            System.out.println("Producto: " + entry.getKey().getNombre()
+                    + " | Unidades Vendidas: " + entry.getValue()
+                    + "  | Total $" + actual);
         }
+        System.out.println(String.format("TOTAL HISTORICO : $%,3d CLP", total) );
     }
 
     // Helper iterar boletas y sumar cantidades por producto
@@ -72,8 +79,7 @@ public class GestorEstadisticas {
         for (Boleta b : boletas) {
             Producto producto = b.getProducto();
             int cantidad = b.getCantidad();
-            int cantidadVendida = cantidad;
-            conteo.put(producto, conteo.getOrDefault(producto, 0) + cantidadVendida);
+            conteo.put(producto, conteo.getOrDefault(producto, 0) + cantidad);
         }
         return conteo;
     }
