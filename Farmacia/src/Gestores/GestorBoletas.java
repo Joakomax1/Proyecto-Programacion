@@ -133,6 +133,8 @@ public class GestorBoletas {
         System.out.println(String.format("%d Boletas generadas", 8));
         guardar();
     }
+    
+    
 
     public int getTamanio() {
         return lista.size();
