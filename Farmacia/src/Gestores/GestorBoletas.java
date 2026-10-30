@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  *
@@ -42,7 +41,6 @@ public class GestorBoletas {
             lista.add(b);
             System.out.println("Producto Comprado Exitosamente: " + b.getProducto().getNombre());
         }
-
     }
 
     // ── GUARDAR: escribe la lista al disco ───────────────────
@@ -110,7 +108,6 @@ public class GestorBoletas {
         if (gestorU.getLista().isEmpty() || gestorP.getLista().isEmpty()) {
             gestorU.precargarDatos();
             gestorP.precargarDatos();
-            return;
         }
         int cantidad = 0;
         for (int i = 0; i < 8; i++) {
@@ -128,13 +125,10 @@ public class GestorBoletas {
             agregar(b);
             // agregar transaccion al usuario
             u.addTransaccion(b);
-            //u.setTotalGastado(b.getPrecioTotal());
         }
         System.out.println(String.format("%d Boletas generadas", 8));
         guardar();
     }
-    
-    
 
     public int getTamanio() {
         return lista.size();
